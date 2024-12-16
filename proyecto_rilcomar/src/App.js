@@ -1,6 +1,4 @@
-import './App.css';
-import Home from './views/Home.tsx';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './views/Home/Home.tsx';
 
 function App() {
   return (

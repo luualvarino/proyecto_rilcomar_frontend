@@ -1,3 +1,10 @@
-.header {
-    background-color: #4ab9cf !important;
+#header {
+    background-color: #1f425d !important;
+    border-radius: 1rem;
+    font-family: "Inter var", sans-serif;
+}
+
+#logo_img {
+    height: 5rem;
+    width: 15rem;
 }
