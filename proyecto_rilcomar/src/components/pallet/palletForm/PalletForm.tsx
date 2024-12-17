@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import { FormatoEnum, MaterialEnum } from "../../models/Pallet/Pallet.ts";
-import Select from "../base/form/Select.tsx";
-import TextInput from "../base/form/TextInput.tsx";
+import { FormatoEnum, MaterialEnum } from "../../../models/Pallet/Pallet.ts";
+import Select from "../../base/form/Select.tsx";
+import TextInput from "../../base/form/TextInput.tsx";
 import "./PalletForm.css";
 import { Button } from "primereact/button";
 import { z } from "zod";
@@ -9,7 +9,7 @@ import { z } from "zod";
 
 export default function PalletForm({ addPallet }) {
     const [tipo, setTipo] = useState("");
-    const [peso, setPeso] = useState(0);
+    const [peso, setPeso] = useState<number>();
     const [formato, setFormato] = useState("");
     const [observaciones, setObservaciones] = useState("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -27,12 +27,12 @@ export default function PalletForm({ addPallet }) {
 
     const formatoOptions = Object.keys(FormatoEnum)
         .filter((key) => isNaN(Number(key)))
-        .map((key) => key);
+        .map((key) => key.replace("_", " "));
 
     function handleAddPallet() {
-        
+
         const obj = {
-            estado: "libre",
+            estado: "Libre",
             tipo: tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             peso,
             formato,
@@ -42,7 +42,6 @@ export default function PalletForm({ addPallet }) {
         const validationResult = formValidator.safeParse(obj);
 
         if (!validationResult.success) {
-            // Si hay errores, los mapeamos
             const fieldErrors = validationResult.error.format();
             setErrors({
                 tipo: fieldErrors.tipo?._errors?.[0] || "",
@@ -50,11 +49,10 @@ export default function PalletForm({ addPallet }) {
                 formato: fieldErrors.formato?._errors?.[0] || "",
                 observaciones: fieldErrors.observaciones?._errors?.[0] || "",
             });
-            return; // Detenemos la ejecución si hay errores
+            return;
         }
 
         setErrors({});
-
 
         fetch("http://localhost:8080/rilcomar/pallets", {
             method: 'POST',
@@ -92,13 +90,14 @@ export default function PalletForm({ addPallet }) {
                     suffix="Kg"
                     isNumber={true}
                     addedClass="md:w-10rem"
-                    value={peso}
+                    value={peso as number}
                     setValue={(value) => setPeso(value as number)}
                     invalid={!!errors.peso}
                     helperText={errors.peso}
                 />
             </div>
             <Select
+                id="formato_input"
                 placeholder="Formato"
                 options={formatoOptions}
                 addedClass="md:w-24rem"

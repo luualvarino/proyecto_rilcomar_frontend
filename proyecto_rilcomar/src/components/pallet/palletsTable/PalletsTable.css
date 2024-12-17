@@ -1,0 +1,23 @@
+#button_div {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#filters_div {
+    display: flex;
+}
+
+#select_filter_div {
+    display: flex;
+    align-items: baseline;
+}
+
+.clear_btn {
+    color: #1f425d;
+}
+
+#delete_btn {
+    max-height: 4rem;
+}

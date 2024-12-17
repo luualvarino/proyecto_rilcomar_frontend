@@ -1,3 +1,4 @@
+import { FloatLabel } from "primereact/floatlabel";
 import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
@@ -34,34 +35,36 @@ export default function TextInput(
 
     return (
         <div id={id ?? ""} className="flex flex-column gap-2">
-            <div  className={`p-inputgroup flex-1 w-full ${addedClass ?? ""}`}>
-                {prefix && <span className="p-inputgroup-addon">{prefix}</span>}
-                {isNumber ?
-                    <InputNumber
-                        invalid={invalid}
-                        placeholder={placeholder}
-                        value={value as number}
-                        onChange={(e) => setValue(e.value ?? 0)}
-                    />
-                    :
-                    isMultiline ?
-                        <InputTextarea
-                            autoResize
-                            placeholder={placeholder}
-                            rows={5}
-                            value={value as string}
-                            onChange={(e) => setValue(e.target.value)}
+            <div className={`p-inputgroup flex-1 ${addedClass ?? ""}`}>
+                <FloatLabel style={{marginTop: '1rem'}}>
+                    {prefix && <span className="p-inputgroup-addon">{prefix}</span>}
+                    {isNumber ?
+                        <InputNumber
                             invalid={invalid}
+                            value={value as number}
+                            onValueChange={(e) => setValue(e.value ?? 0)}
                         />
                         :
-                        <InputText
-                            placeholder={placeholder}
-                            value={value as string}
-                            onChange={(e) => setValue(e.target.value)}
-                            invalid={invalid}
-                        />
-                }
-                {suffix && <span className="p-inputgroup-addon">{suffix}</span>}
+                        isMultiline ?
+                            <InputTextarea
+                                autoResize
+                                placeholder={placeholder}
+                                rows={5}
+                                value={value as string}
+                                onChange={(e) => setValue(e.target.value)}
+                                invalid={invalid}
+                            />
+                            :
+                            <InputText
+                                placeholder={placeholder}
+                                value={value as string}
+                                onChange={(e) => setValue(e.target.value)}
+                                invalid={invalid}
+                            />
+                    }
+                    {suffix && <span className="p-inputgroup-addon">{suffix}</span>}
+                    <label>{placeholder}</label>
+                </FloatLabel>
             </div>
             {invalid &&
                 <small id="username-help">

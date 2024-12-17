@@ -4,6 +4,14 @@
     font-family: "Inter var", sans-serif;
 }
 
+.p-menuitem-text {
+    color: white;
+}
+
+.p-menuitem:hover .p-menuitem-text {
+    color: #1f425d;
+}
+
 #logo_img {
     height: 5rem;
     width: 15rem;

@@ -4,6 +4,8 @@ import { Toolbar } from 'primereact/toolbar';
 import { Avatar } from 'primereact/avatar';
 import logo from "../../../imgs/LogoRilcomar.png";
 import "./Header.css";
+import { Menubar } from 'primereact/menubar';
+import { Badge } from 'primereact/badge';
 
 export default function CustomDemo() {
     const startContent = (
@@ -12,19 +14,29 @@ export default function CustomDemo() {
         </React.Fragment>
     );
 
-    const centerContent = (
-        <div className="flex flex-wrap align-items-center gap-3">
-            <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-home text-2xl"></i>
-            </button>
-            <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-user text-2xl"></i>
-            </button>
-            <button className="p-link inline-flex justify-content-center align-items-center text-white h-3rem w-3rem border-circle hover:bg-white-alpha-10 transition-all transition-duration-200">
-                <i className="pi pi-search text-2xl"></i>
-            </button>
-        </div>
+    const itemRenderer = (item) => (
+        <a className="flex align-items-center p-menuitem-link">
+            <span className={item.icon} />
+            <span className="mx-2">{item.label}</span>
+            {item.badge && <Badge className="ml-auto" value={item.badge} />}
+            {item.shortcut && <span className="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{item.shortcut}</span>}
+        </a>
     );
+    
+    const items = [
+        {
+            label: 'Home',
+            icon: 'pi pi-home',
+        },
+        {
+            label: 'Pallets',
+            icon: 'pi pi-star'
+        },
+        {
+            label: 'Pedidos',
+            icon: 'pi pi-star'
+        },
+    ];
 
     const endContent = (
         <React.Fragment>
@@ -37,7 +49,7 @@ export default function CustomDemo() {
 
     return (
         <div >
-            <Toolbar id='header' start={startContent} center={centerContent} end={endContent}  />
+            <Menubar id='header' start={startContent} model={items} end={endContent}  />
         </div>
     );
 }

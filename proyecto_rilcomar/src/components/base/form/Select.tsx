@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
+import { FloatLabel } from "primereact/floatlabel";
 
 interface SelectProps {
     id?: string;
@@ -25,16 +26,19 @@ export default function Select(
 
     return (
         <div className="flex flex-column gap-2">
-            <Dropdown
-                id={id ?? ""}
-                value={selectedValue}
-                onChange={(e: DropdownChangeEvent) => setSelectedValue(e.value)}
-                options={options}
-                optionLabel="name"
-                placeholder={placeholder}
-                className={`w-full ${addedClass ?? ""}`}
-                invalid={invalid}
-            />
+            <FloatLabel style={{marginTop: '1rem'}}>
+                <Dropdown
+                    id={id ?? ""}
+                    value={selectedValue}
+                    onChange={(e: DropdownChangeEvent) => setSelectedValue(e.value)}
+                    options={options}
+                    optionLabel="name"
+                    placeholder={placeholder}
+                    className={`w-full ${addedClass ?? ""}`}
+                    invalid={invalid}
+                />
+                <label>{placeholder}</label>
+            </FloatLabel>
             {invalid &&
                 <small id="username-help">
                     {helperText}

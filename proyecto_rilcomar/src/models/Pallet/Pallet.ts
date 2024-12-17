@@ -16,11 +16,18 @@ export enum FormatoEnum {
     Pallet_1100x1100mm
 }
 
+export enum EstadoEnum {
+    Libre,
+    Procesando,
+    En_Viaje,
+    Entregado,
+    Completado
+}
+
 interface Pallet {
     id?: number;
-    estado: string;
+    estado: EstadoEnum;
     tipo: MaterialEnum;
-    estaDisponible?: boolean;
     formato?: FormatoEnum;
     peso?: number;
     dimensiones?: string;
