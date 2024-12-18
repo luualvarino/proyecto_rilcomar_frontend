@@ -43,6 +43,30 @@ export const useGetPallets = (filters: getPalletsFilters) => {
     return useQuery(getPallets.list(filters));
 }
 
+async function getPalletsPorPedidoQuery(pedidoId: number) {
+    const response = await fetch(`http://localhost:8080/rilcomar/pallets/pedido/${pedidoId}`);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener los pallets");
+    }
+    const data = await response.json();
+    return data;
+}
+
+const getPalletsPorPedido = {
+    key: () => ["pallets"],
+    lists: () => [...getPallets.key(), "list"] as const,
+    list: (pedidoId: number) =>
+        queryOptions({
+            queryKey: [...getPalletsPorPedido.lists()],
+            queryFn: () => getPalletsPorPedidoQuery(pedidoId),
+        }),
+}
+
+export const useGetPalletsPorPedido = (pedidoId: number) => {
+    return useQuery(getPalletsPorPedido.list(pedidoId));
+}
+
 async function addPalletQuery(pallet: Pallet) {
     const response = await fetch("http://localhost:8080/rilcomar/pallets", {
         method: 'POST',
@@ -85,7 +109,7 @@ async function deletePalletQuery(palletId: number) {
         throw new Error("Error al eliminar el pallet");
     }
 
-    if(response.status === 204){
+    if (response.status === 204) {
         return null;
     }
 

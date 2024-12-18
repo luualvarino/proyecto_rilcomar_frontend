@@ -7,15 +7,17 @@ import { Toast } from "primereact/toast";
 import Select from "../../base/form/Select.tsx";
 import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
 import { Pedido } from "../../../models/Pedido.ts";
+import { DataTableValueArray } from "primereact/datatable";
+import { useNavigate } from "react-router-dom";
 
 
-export default function PedidosTable({ selectedRows, setSelectedRows }) {
+export default function PedidosTable() {
+    const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const [estado, setEstado] = useState("");
-    const [tipo, setTipo] = useState("");
-    const [formato, setFormato] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
     const { data } = useGetPedidos({ estado });
+    const navigate = useNavigate();
 
     function showNotification(data) {
         console.log(data);
@@ -26,6 +28,12 @@ export default function PedidosTable({ selectedRows, setSelectedRows }) {
             toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Pedido no pudo ser eliminado', life: 3000 });
         }
     };
+
+    const viewButtonRender = (rowData: Pedido) => {
+        return <span>
+            <Button id="view_btn" icon="pi pi-eye" rounded text size="large" onClick={() => navigate(`/pedidos/${rowData.id}`, { state: { pedido: rowData } })} />
+        </span>
+    }
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
@@ -75,6 +83,7 @@ export default function PedidosTable({ selectedRows, setSelectedRows }) {
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
+                rowAction={viewButtonRender}
             />
             {/* <BaseDialog
                 header={selectedRows.length > 1 ? "Desea eliminar los Pallets seleccionados?" : "Desea eliminar el Pallet seleccionado?"}

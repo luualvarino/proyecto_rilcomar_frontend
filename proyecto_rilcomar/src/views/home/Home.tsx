@@ -1,6 +1,6 @@
 import React from "react";
 import "./Home.css";
-import PalletsView from "../PalletsView/PalletsView.tsx";
+import PalletsView from "../pallets/palletsView/PalletsView.tsx";
 
 export default function Home() {
     return (

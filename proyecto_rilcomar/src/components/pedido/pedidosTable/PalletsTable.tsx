@@ -3,45 +3,28 @@ import React, { useRef, useState } from "react";
 import TableComponent, { ColumnProps } from "../../base/table/TableComponent.tsx";
 import "./PalletsTable.css";
 import { Button } from 'primereact/button';
-import BaseDialog from "../../base/dialog/BaseDialog.tsx";
-import DeletePallet from "../deletePallet/DeletePallet.tsx";
 import { Toast } from "primereact/toast";
-import { useGetPallets, useGetPalletsPorPedido } from "../../../querys/PalletQuerys.ts";
+import { useGetPalletsPorPedido } from "../../../querys/PalletQuerys.ts";
 import Select from "../../base/form/Select.tsx";
 import { useNavigate } from "react-router-dom";
 import { DataTableValueArray } from "primereact/datatable";
 
 interface PalletsTableProps {
+    pedidoId: number;
     selectedRows: DataTableValueArray;
     setSelectedRows: (rows: DataTableValueArray) => void;
 }
 
-export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsTableProps) {
+export default function PalletsTable({ pedidoId, selectedRows, setSelectedRows }: PalletsTableProps) {
     const [estado, setEstado] = useState("");
     const [tipo, setTipo] = useState("");
     const [formato, setFormato] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
-    let data: any[] = [];
 
-    ({ data } = useGetPallets({ estado, tipo, formato }));
+    const { data } = useGetPalletsPorPedido(pedidoId);
 
     const navigate = useNavigate();
-
-    function showNotification(data) {
-        console.log(data);
-
-        if (data) {
-            toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pallet eliminado exitosamente', life: 3000 });
-        } else {
-            toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Pallet no pudo ser eliminado', life: 3000 });
-        }
-    };
-
-    const estaDisponibleRender = (rowData: Pallet) => {
-        const estaDisp = rowData.estado.toString() === "Libre" ? "Si" : "No";
-        return <span>{estaDisp}</span>;
-    };
 
     const viewButtonRender = (rowData: Pallet) => {
         return <span>
@@ -54,7 +37,6 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
         { field: 'estado', header: 'Estado' },
         { field: 'tipo', header: 'Tipo' }, //Buscar forma de mostrar los valores escritos bien (con tilde)
         { field: 'formato', header: 'Formato' },
-        { field: 'estaDisponible', header: 'Esta Disponible', body: estaDisponibleRender },
         { field: 'observaciones', header: 'Observaciones' }
     ];
 
@@ -125,18 +107,6 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
                 rowAction={viewButtonRender}
-            />
-            <BaseDialog
-                header={selectedRows.length > 1 ? "Desea eliminar los Pallets seleccionados?" : "Desea eliminar el Pallet seleccionado?"}
-                content={
-                    <DeletePallet
-                        selectedPallets={selectedRows}
-                        closeModal={() => { setShowModal(false); setSelectedRows([]); }}
-                        showNotification={showNotification}
-                    />}
-                visible={showModal}
-                setVisible={(value) => setShowModal(value)}
-                width="30vw"
             />
         </div>
     )
