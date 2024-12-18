@@ -1,6 +1,6 @@
-import PalletsTable from "../../../components/pallet/palletsTable/PalletsTable.tsx";
-import BaseDialog from "../../../components/base/dialog/BaseDialog.tsx";
-import PalletForm from "../../../components/pallet/palletForm/PalletForm.tsx";
+import PalletsTable from "../../components/pallet/palletsTable/PalletsTable.tsx";
+import BaseDialog from "../../components/base/dialog/BaseDialog.tsx";
+import PalletForm from "../../components/pallet/palletForm/PalletForm.tsx";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import React, { useRef, useState } from "react";
@@ -31,7 +31,7 @@ export default function PalletsView() {
                 <Button id="add_pallet_btn" label="Agregar Pallet" icon="pi pi-plus" onClick={() => setVisible(true)} />
             </div>
             <PalletsTable selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
-            <BaseDialog header="Nuevo Pallet" content={<PalletForm addPallet={showNotification} />} visible={visible} setVisible={setVisible} />
+            <BaseDialog header="Nuevo Pallet" content={<PalletForm addedPallet={showNotification} />} visible={visible} setVisible={setVisible} />
         </div>
     )
 }

@@ -6,8 +6,12 @@ import logo from "../../../imgs/LogoRilcomar.png";
 import "./Header.css";
 import { Menubar } from 'primereact/menubar';
 import { Badge } from 'primereact/badge';
+import { useNavigate } from 'react-router-dom';
 
 export default function CustomDemo() {
+
+    const navigate = useNavigate();
+
     const startContent = (
         <React.Fragment>
             <img id='logo_img' src={logo}/>
@@ -25,16 +29,20 @@ export default function CustomDemo() {
     
     const items = [
         {
+            id: 'home_item',
             label: 'Home',
             icon: 'pi pi-home',
+            command: () => navigate('/')
         },
         {
             label: 'Pallets',
-            icon: 'pi pi-star'
+            icon: 'pi pi-star',
+            command: () => navigate('/pallets')
         },
         {
             label: 'Pedidos',
-            icon: 'pi pi-star'
+            icon: 'pi pi-star',
+            command: () => navigate('/pedidos')
         },
     ];
 

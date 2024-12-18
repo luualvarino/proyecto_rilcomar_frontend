@@ -1,60 +1,47 @@
 import { EstadoEnum, FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
 import React, { useRef, useState } from "react";
 import TableComponent, { ColumnProps } from "../../base/table/TableComponent.tsx";
-import "./PalletsTable.css";
+import "../../pallet/palletsTable/PalletsTable.css";
 import { Button } from 'primereact/button';
-import BaseDialog from "../../base/dialog/BaseDialog.tsx";
-import DeletePallet from "../deletePallet/DeletePallet.tsx";
 import { Toast } from "primereact/toast";
-import { useGetPallets } from "../../../querys/PalletQuerys.ts";
 import Select from "../../base/form/Select.tsx";
+import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
+import { Pedido } from "../../../models/Pedido.ts";
 
 
-export default function PalletsTable({ selectedRows, setSelectedRows }) {
+export default function PedidosTable({ selectedRows, setSelectedRows }) {
     const [estado, setEstado] = useState("");
     const [tipo, setTipo] = useState("");
     const [formato, setFormato] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
-    const { data } = useGetPallets({ estado, tipo, formato });
+    const { data } = useGetPedidos({ estado });
 
     function showNotification(data) {
         console.log(data);
-        
-        if (data) {
-            toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pallet eliminado exitosamente', life: 3000 });
-        } else {
-            toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Pallet no pudo ser eliminado', life: 3000 });
-        }
-    };
 
-    const estaDisponibleRender = (rowData: Pallet) => {
-        const estaDisp = rowData.estado.toString() === "Libre" ? "Si" : "No";
-        return <span>{estaDisp}</span>;
+        if (data) {
+            toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pedido eliminado exitosamente', life: 3000 });
+        } else {
+            toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Pedido no pudo ser eliminado', life: 3000 });
+        }
     };
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
         { field: 'estado', header: 'Estado' },
-        { field: 'tipo', header: 'Tipo' }, //Buscar forma de mostrar los valores escritos bien (con tilde)
-        { field: 'formato', header: 'Formato' },
-        { field: 'estaDisponible', header: 'Esta Disponible', body: estaDisponibleRender },
-        { field: 'observaciones', header: 'Observaciones' }
+        { field: 'cliente', header: 'Cliente', body: (rowData: Pedido) => { return <span>{rowData.cliente.nombre}</span> } },
+        { field: 'fechaCreacion', header: 'Fecha Creación' },
+        { field: 'fechaEntrega', header: 'Fecha Entrega' },
+        { field: 'ubicacion', header: 'Ubicación' }
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
 
     const estados = Object.keys(EstadoEnum)
         .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "));
-
-    const tipos = Object.keys(MaterialEnum)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => key);
-
-    const formatos = Object.keys(FormatoEnum)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "));
+        .map((key) => key.replace("_", " "))
+        .filter(estado => estado !== "Libre");
 
     const renderHeader = () => {
         return (
@@ -69,26 +56,6 @@ export default function PalletsTable({ selectedRows, setSelectedRows }) {
                             setSelectedValue={(value) => setEstado(value)}
                         />
                         <Button disabled={estado === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setEstado("")} />
-                    </div>
-                    <div id="select_filter_div">
-                        <Select
-                            placeholder="Tipo"
-                            options={tipos}
-                            addedClass="md:w-12rem"
-                            selectedValue={tipo}
-                            setSelectedValue={(value) => setTipo(value)}
-                        />
-                        <Button disabled={tipo === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setTipo("")} />
-                    </div>
-                    <div id="select_filter_div">
-                        <Select
-                            placeholder="Formato"
-                            options={formatos}
-                            addedClass="md:w-12rem"
-                            selectedValue={formato}
-                            setSelectedValue={(value) => setFormato(value)}
-                        />
-                        <Button disabled={formato === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setFormato("")} />
                     </div>
                 </div>
 
@@ -109,7 +76,7 @@ export default function PalletsTable({ selectedRows, setSelectedRows }) {
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
             />
-            <BaseDialog
+            {/* <BaseDialog
                 header={selectedRows.length > 1 ? "Desea eliminar los Pallets seleccionados?" : "Desea eliminar el Pallet seleccionado?"}
                 content={
                     <DeletePallet
@@ -120,7 +87,7 @@ export default function PalletsTable({ selectedRows, setSelectedRows }) {
                 visible={showModal}
                 setVisible={(value) => setShowModal(value)}
                 width="30vw"
-            />
+            /> */}
         </div>
     )
 }

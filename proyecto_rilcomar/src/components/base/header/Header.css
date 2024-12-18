@@ -4,11 +4,20 @@
     font-family: "Inter var", sans-serif;
 }
 
-.p-menuitem-text {
-    color: white;
+#home_item {
+    margin-left: 1rem;
 }
 
-.p-menuitem:hover .p-menuitem-text {
+.p-menuitem-text, .p-menuitem-icon {
+    color: white;
+    font-size: large;
+}
+
+.p-menuitem:hover .p-menuitem-text, .p-menuitem:hover .p-menuitem-icon {
+    color: #1f425d;
+}
+
+.p-focus .p-menuitem-text, .p-focus .p-menuitem-icon {
     color: #1f425d;
 }
 
