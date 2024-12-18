@@ -1,0 +1,11 @@
+/* .card {
+    background: var(--surface-card);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+} */
+
+#add_pallet_btn{
+   background-color: #4ab9cf;
+   border-color: #4ab9cf;
+}
