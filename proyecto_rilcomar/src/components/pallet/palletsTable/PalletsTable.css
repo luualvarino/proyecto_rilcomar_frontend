@@ -21,3 +21,8 @@
 #delete_btn {
     max-height: 4rem;
 }
+
+#view_btn:hover {
+    background-color: #1f425d;
+    color: white;
+}

@@ -1,23 +1,20 @@
 import { Button } from "primereact/button";
 import React from "react";
-import { Pallet } from "../../../models/Pallet/Pallet";
+import { Pallet } from "../../../models/Pallet.ts";
 import "./DeletePallet.css";
+import { useDeletePallet } from "../../../querys/PalletQuerys.ts";
 
-export default function DeletePallet({ selectedPallets, closeModal, showNotification}) {
+export default function DeletePallet({ selectedPallets, closeModal, showNotification }) {
+    const { mutate: deletePallet } = useDeletePallet({
+        onSuccessFn: () => showNotification("Ok"),
+        onErrorFn: () => showNotification(null)
+    })
 
     function handleDeletePallet() {
         selectedPallets.map((pallet: Pallet) => {
-            fetch(`http://localhost:8080/rilcomar/pallets/${pallet.id}`, {
-                method: 'DELETE',
-            })
-                .then((response) => {
-                    if (response.ok) {
-                        showNotification(response);
-                    } else {
-                        showNotification(null);
-                    }
-                })
-                .catch(() => showNotification(null));
+            if (pallet.id) {
+                deletePallet(pallet.id);
+            }
         })
         closeModal();
     }
