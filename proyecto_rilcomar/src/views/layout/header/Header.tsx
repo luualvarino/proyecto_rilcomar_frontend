@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { Toolbar } from 'primereact/toolbar';
 import { Avatar } from 'primereact/avatar';
 import logo from "../../../imgs/LogoRilcomar.png";
 import "./Header.css";
@@ -43,6 +42,11 @@ export default function CustomDemo() {
             label: 'Pedidos',
             icon: 'pi pi-star',
             command: () => navigate('/pedidos')
+        },
+        {
+            label: 'Clientes',
+            icon: 'pi pi-star',
+            command: () => navigate('/clientes')
         },
     ];
 
