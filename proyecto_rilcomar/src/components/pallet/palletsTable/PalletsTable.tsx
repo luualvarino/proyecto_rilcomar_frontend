@@ -22,9 +22,8 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
     const [formato, setFormato] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
-    let data: any[] = [];
 
-    ({ data } = useGetPallets({ estado, tipo, formato }));
+    const { data } = useGetPallets({ estado, tipo, formato });
 
     const navigate = useNavigate();
 
