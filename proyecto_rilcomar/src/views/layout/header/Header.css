@@ -1,0 +1,27 @@
+#header {
+    background-color: #1f425d !important;
+    border-radius: 1rem;
+    font-family: "Inter var", sans-serif;
+}
+
+#home_item {
+    margin-left: 1rem;
+}
+
+.p-menuitem-text, .p-menuitem-icon {
+    color: white;
+    font-size: large;
+}
+
+.p-menuitem:hover .p-menuitem-text, .p-menuitem:hover .p-menuitem-icon {
+    color: #1f425d;
+}
+
+.p-focus .p-menuitem-text, .p-focus .p-menuitem-icon {
+    color: #1f425d;
+}
+
+#logo_img {
+    height: 5rem;
+    width: 15rem;
+}

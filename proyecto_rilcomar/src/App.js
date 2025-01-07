@@ -1,12 +1,32 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Home from './views/Home/Home.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Home from './views/home/Home.tsx';
+import PalletsView from './views/pallets/palletsView/PalletsView.tsx';
+import PedidosView from './views/pedidos/pedidosView/PedidosView.tsx';
+import Layout from './views/layout/Layout.tsx';
+import PedidoDetailView from './views/pedidos/pedidoDetailView/PedidoDetailView.tsx';
+import ClientesView from './views/clientes/clientesView/ClientesView.tsx';
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        { path: '/', element: <Home /> },
+        { path: '/pallets', element: <PalletsView /> },
+        { path: '/pallets/palletId', element: <PalletsView /> },
+        { path: '/pedidos', element: <PedidosView /> },
+        { path: '/pedidos/pedidoId', element: <PedidoDetailView /> },
+        { path: '/clientes', element: <ClientesView /> },
+      ]
+    }
+  ])
 
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <Home />
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }

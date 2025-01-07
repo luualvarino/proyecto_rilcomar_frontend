@@ -1,18 +1,23 @@
 import React, { useRef, useState } from "react";
-import { FormatoEnum, MaterialEnum } from "../../../models/Pallet/Pallet.ts";
+import { FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
 import Select from "../../base/form/Select.tsx";
 import TextInput from "../../base/form/TextInput.tsx";
 import "./PalletForm.css";
 import { Button } from "primereact/button";
 import { z } from "zod";
+import { useAddPallet } from "../../../querys/PalletQuerys.ts";
 
 
-export default function PalletForm({ addPallet }) {
+export default function PalletForm({ addedPallet }) {
     const [tipo, setTipo] = useState("");
     const [peso, setPeso] = useState<number>();
     const [formato, setFormato] = useState("");
     const [observaciones, setObservaciones] = useState("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const { mutate: addPallet } = useAddPallet({
+        onSuccessFn: (data) => { addedPallet(data) },
+        onErrorFn: () => { addedPallet(null) }
+    })
 
     const formValidator = z.object({
         tipo: z.string().min(1, "El tipo es obligatorio."),
@@ -31,7 +36,7 @@ export default function PalletForm({ addPallet }) {
 
     function handleAddPallet() {
 
-        const obj = {
+        const obj: Pallet = {
             estado: "Libre",
             tipo: tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             peso,
@@ -54,21 +59,7 @@ export default function PalletForm({ addPallet }) {
 
         setErrors({});
 
-        fetch("http://localhost:8080/rilcomar/pallets", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(obj),
-        })
-            .then((response) => {
-                if (response.ok) {
-                    addPallet(response);
-                } else {
-                    addPallet(null);
-                }
-            })
-            .catch(() => addPallet(null));
+        addPallet(obj);
     }
 
     return (

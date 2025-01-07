@@ -16,7 +16,8 @@ interface EnhancedTableProps {
   footer?: React.JSX.Element;
   selectedRows?: DataTableValueArray;
   setSelectedRows?: (rows: DataTableValueArray) => void;
-  rowClick?: boolean
+  rowClick?: boolean;
+  rowAction?: (rowData) => React.JSX.Element;
 }
 
 export default function TableComponent(
@@ -28,7 +29,8 @@ export default function TableComponent(
     paginationModel,
     selectedRows = [],
     setSelectedRows,
-    rowClick
+    rowClick,
+    rowAction
   }: EnhancedTableProps) {
 
   return (
@@ -48,6 +50,7 @@ export default function TableComponent(
         {columns.map(col => (
           <Column key={col.field} field={col.field} header={col.header} body={col.body} />
         ))}
+        {rowAction && <Column body={(rowData) => rowAction(rowData)} />}
       </DataTable>
     </div>
   );

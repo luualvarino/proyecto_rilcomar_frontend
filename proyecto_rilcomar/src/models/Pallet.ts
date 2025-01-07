@@ -1,4 +1,4 @@
-import { Pedido } from "../Pedido";
+import { Pedido } from "./Pedido";
 
 export enum MaterialEnum {
     Madera,
@@ -26,9 +26,9 @@ export enum EstadoEnum {
 
 interface Pallet {
     id?: number;
-    estado: EstadoEnum;
-    tipo: MaterialEnum;
-    formato?: FormatoEnum;
+    estado: string;
+    tipo: string;
+    formato?: string;
     peso?: number;
     dimensiones?: string;
     observaciones?: string;
