@@ -2,7 +2,8 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/r
 import { Pallet } from "../models/Pallet";
 
 async function getPalletsQuery(queryParams: string) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pallets?${queryParams}`);
+    
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets?${queryParams}`);
 
     if (!response.ok) {
         throw new Error("Error al obtener los pallets");
@@ -14,17 +15,25 @@ async function getPalletsQuery(queryParams: string) {
 interface getPalletsFilters {
     // page?: number;
     // size?: number;
-    estado: string;
-    tipo: string;
-    formato: string;
+    estado?: string;
+    tipo?: string;
+    formato?: string;
 }
 
 const buildApiFilters = (filters: getPalletsFilters) => {
     const queryParams = new URLSearchParams();
 
-    queryParams.append("estado", filters.estado.replace(" ", "_"));
-    queryParams.append("tipo", filters.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
-    queryParams.append("formato", filters.formato.replace(" ", "_"));
+    if (filters.estado) {
+        queryParams.append("estado", filters.estado);
+    }
+
+    if (filters.tipo) {
+        queryParams.append("tipo", filters.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+    }
+
+    if (filters.formato) {
+        queryParams.append("formato", filters.formato.replace(" ", "_"));
+    }
 
     return queryParams.toString();
 };
@@ -36,7 +45,7 @@ const getPallets = {
         queryOptions({
             queryKey: [...getPallets.lists(), { ...filters }],
             queryFn: () => getPalletsQuery(buildApiFilters(filters)),
-        }),
+        })
 }
 
 export const useGetPallets = (filters: getPalletsFilters) => {
@@ -44,7 +53,7 @@ export const useGetPallets = (filters: getPalletsFilters) => {
 }
 
 async function getPalletsPorPedidoQuery(pedidoId: number) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pallets/pedido/${pedidoId}`);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets/pedido/${pedidoId}`);
 
     if (!response.ok) {
         throw new Error("Error al obtener los pallets");
@@ -68,7 +77,7 @@ export const useGetPalletsPorPedido = (pedidoId: number) => {
 }
 
 async function addPalletQuery(pallet: Pallet) {
-    const response = await fetch("http://localhost:8080/rilcomar/pallets", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -101,7 +110,7 @@ export const useAddPallet = ({
 }
 
 async function deletePalletQuery(palletId: number) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pallets/${palletId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets/${palletId}`, {
         method: 'DELETE',
     });
 

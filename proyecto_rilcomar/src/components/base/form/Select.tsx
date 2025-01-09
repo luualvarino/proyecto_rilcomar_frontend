@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { FloatLabel } from "primereact/floatlabel";
 
@@ -7,10 +7,11 @@ interface SelectProps {
     options: string[];
     placeholder: string;
     addedClass?: string;
-    selectedValue: string;
-    setSelectedValue: (value: string) => void;
+    selectedValue: string | Object;
+    setSelectedValue: (value: string | Object) => void;
     invalid?: boolean;
     helperText?: string;
+    style?: CSSProperties;
 }
 export default function Select(
     {
@@ -21,7 +22,8 @@ export default function Select(
         selectedValue,
         setSelectedValue,
         invalid,
-        helperText
+        helperText,
+        style
     }: SelectProps) {
 
     return (
@@ -32,10 +34,11 @@ export default function Select(
                     value={selectedValue}
                     onChange={(e: DropdownChangeEvent) => setSelectedValue(e.value)}
                     options={options}
-                    optionLabel="name"
+                    optionLabel="nombre"
                     placeholder={placeholder}
                     className={`w-full ${addedClass ?? ""}`}
                     invalid={invalid}
+                    style={style}
                 />
                 <label>{placeholder}</label>
             </FloatLabel>

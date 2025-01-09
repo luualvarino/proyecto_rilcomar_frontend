@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/r
 import { Pedido } from "../models/Pedido";
 
 async function getPedidosQuery(queryParams: string) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pedidos?${queryParams}`);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos?${queryParams}`);
 
     if (!response.ok) {
         throw new Error("Error al obtener los pedidos");
@@ -14,13 +14,15 @@ async function getPedidosQuery(queryParams: string) {
 interface getPedidosFilters {
     // page?: number;
     // size?: number;
-    estado: string;
+    estado?: string;
 }
 
 const buildApiFilters = (filters: getPedidosFilters) => {
     const queryParams = new URLSearchParams();
 
-    queryParams.append("estado", filters.estado.replace(" ", "_"));
+    if (filters.estado) {
+        queryParams.append("estado", filters.estado.replace(" ", "_"));
+    }
 
     return queryParams.toString();
 };
@@ -39,8 +41,34 @@ export const useGetPedidos = (filters: getPedidosFilters) => {
     return useQuery(getPedidos.list(filters));
 }
 
-async function addPedidoQuery(pedido: Pedido) {
-    const response = await fetch("http://localhost:8080/rilcomar/pedidos", {
+async function getPedidoQuery(pedidoId: number) {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos/${pedidoId}`);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener el pedido");
+    }
+    const data = await response.json();
+    return data;
+}
+
+const getPedido = {
+    key: () => ["pedidos"],
+    lists: () => [...getPedido.key(), "list"] as const,
+    list: (pedidoId: number) =>
+        queryOptions({
+            queryKey: [...getPedidos.lists(), pedidoId],
+            queryFn: () => getPedidoQuery(pedidoId),
+        }),
+}
+
+export const useGetPedido = (pedidoId: number) => {
+    return useQuery(getPedido.list(pedidoId));
+}
+
+async function createPedidoQuery(pedido: Pedido) {
+    console.log("create");
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -55,13 +83,13 @@ async function addPedidoQuery(pedido: Pedido) {
     return data;
 }
 
-export const useAddPedido = ({
+export const useCreatePedido = ({
     onSuccessFn,
     onErrorFn
 }) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (pedido: Pedido) => addPedidoQuery(pedido),
+        mutationFn: (pedido: Pedido) => createPedidoQuery(pedido),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["pedidos"] });
             onSuccessFn(data);
@@ -73,7 +101,7 @@ export const useAddPedido = ({
 }
 
 async function deletePedidoQuery(pedidoId: number) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pedidos/${pedidoId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos/${pedidoId}`, {
         method: 'DELETE',
     });
 
@@ -81,7 +109,7 @@ async function deletePedidoQuery(pedidoId: number) {
         throw new Error("Error al eliminar el pedido");
     }
 
-    if(response.status === 204){
+    if (response.status === 204) {
         return null;
     }
 

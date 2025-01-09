@@ -15,7 +15,7 @@ export default function PalletForm({ addedPallet }) {
     const [observaciones, setObservaciones] = useState("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const { mutate: addPallet } = useAddPallet({
-        onSuccessFn: (data) => { addedPallet(data) },
+        onSuccessFn: (data: Pallet) => { addedPallet(data) },
         onErrorFn: () => { addedPallet(null) }
     })
 
@@ -37,7 +37,6 @@ export default function PalletForm({ addedPallet }) {
     function handleAddPallet() {
 
         const obj: Pallet = {
-            estado: "Libre",
             tipo: tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             peso,
             formato,
@@ -71,7 +70,7 @@ export default function PalletForm({ addedPallet }) {
                     options={materialOptions}
                     addedClass="md:w-10rem"
                     selectedValue={tipo}
-                    setSelectedValue={(value) => setTipo(value)}
+                    setSelectedValue={(value) => setTipo(value as string)}
                     invalid={!!errors.tipo}
                     helperText={errors.tipo}
                 />
@@ -93,7 +92,7 @@ export default function PalletForm({ addedPallet }) {
                 options={formatoOptions}
                 addedClass="md:w-24rem"
                 selectedValue={formato}
-                setSelectedValue={(value) => setFormato(value)}
+                setSelectedValue={(value) => setFormato(value as string)}
                 invalid={!!errors.formato}
                 helperText={errors.formato}
             />

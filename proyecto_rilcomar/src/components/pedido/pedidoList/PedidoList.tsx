@@ -2,11 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import { OrderList } from 'primereact/orderlist';
 import { Pallet } from '../../../models/Pallet';
-import { useGetPalletsPorPedido } from '../../../querys/PalletQuerys';
+import { useGetPalletsPorPedido } from '../../../querys/PalletQuerys.ts';
 import { Pedido } from '../../../models/Pedido';
 
-export default function PedidoList(pedido: Pedido) {
-    const { data } = useGetPalletsPorPedido( pedido.id );
+interface PedidoListProps {
+    pedido: Pedido;
+}
+
+export default function PedidoList({ pedido }: PedidoListProps) {
+    const { data } = useGetPalletsPorPedido(pedido.id ?? 0);
 
     const itemTemplate = (pallet: Pallet) => {
         return (
@@ -22,11 +26,10 @@ export default function PedidoList(pedido: Pedido) {
             </div>
         );
     };
-    
+
     return (
         <div className="card xl:flex xl:justify-content-center">
             <OrderList dataKey="id" value={data} itemTemplate={itemTemplate} header="Pallets"></OrderList>
         </div>
     )
 }
-        

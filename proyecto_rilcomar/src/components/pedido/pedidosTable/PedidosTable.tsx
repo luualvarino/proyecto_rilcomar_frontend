@@ -1,4 +1,4 @@
-import { EstadoEnum, FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
+import {FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
 import React, { useRef, useState } from "react";
 import TableComponent, { ColumnProps } from "../../base/table/TableComponent.tsx";
 import "../../pallet/palletsTable/PalletsTable.css";
@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { Toast } from "primereact/toast";
 import Select from "../../base/form/Select.tsx";
 import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
-import { Pedido } from "../../../models/Pedido.ts";
+import { EstadoEnum, Pedido } from "../../../models/Pedido.ts";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
 
@@ -61,7 +61,7 @@ export default function PedidosTable() {
                             options={estados}
                             addedClass="md:w-12rem"
                             selectedValue={estado}
-                            setSelectedValue={(value) => setEstado(value)}
+                            setSelectedValue={(value) => setEstado(value as string)}
                         />
                         <Button disabled={estado === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setEstado("")} />
                     </div>
