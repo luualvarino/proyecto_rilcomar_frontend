@@ -1,0 +1,12 @@
+#form_div {
+    width: 100%;
+    padding-bottom: 0;
+}
+
+#peso_input {
+    margin-left: 2rem;
+}
+
+#tipo_input {
+    margin-right: 2rem;
+}
