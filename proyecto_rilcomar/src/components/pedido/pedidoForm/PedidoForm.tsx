@@ -12,16 +12,12 @@ import "./PedidoForm.css";
 import { Pedido } from "../../../models/Pedido.ts";
 import { useCreatePedido } from "../../../querys/PedidoQuerys.ts";
 import { formatDate } from "../../../utils/Utils.ts";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 
 export default function PedidoForm({ createdPedido }) {
-    const [cliente, setCliente] = useState<Cliente>();
-    const [fechaEntrega, setFechaEntrega] = useState<Date>(new Date());
-    const [palletsPedido, setPalletsPedido] = useState<Pallet[]>([]);
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
+    const [palletsPedido] = useState<Pallet[]>([]);
     const { data: clientes } = useGetClientes({});
     const { data } = useGetPallets({ estado: "Libre" });
     const [pallets, setPallets] = useState<Pallet[]>([]);
@@ -33,70 +29,95 @@ export default function PedidoForm({ createdPedido }) {
 
     useEffect(() => {
         if (data) {
-            setPallets(data.filter((pallet: Pallet) => pallet.estado === EstadoEnum.Libre));
+            setPallets(data.filter((pallet: Pallet) => pallet.estado?.toString() === "Libre"));
         }
     }, [data]);
 
-    useEffect(() => {
-        console.log(errors);
+    function getTomorrowDate() {
+        var tomorrow = new Date();
+        tomorrow.setDate(new Date().getDate() + 1);
 
-    }, [errors]);
-
-    useEffect(() => {
-        console.log(palletsPedido);
-
-    }, [palletsPedido]);
+        return tomorrow;
+    }
 
     const formValidator = z.object({
         cliente: z.unknown().refine(c => c != null, { message: "El cliente no puede ser nulo." }),
-        fechaEntrega: z.date().min(new Date(), "La fecha de entrega debe ser posterior a hoy."),
-        // palletsPedido: z.array(z.unknown()).min(1, "Debe haber al menos un pallet en el pedido."), Corregir esta validacion
+        fechaEntrega: z.date().min(new Date(), { message: "La fecha de entrega debe ser posterior a hoy." }),
+        palletsPedido: z.array(z.unknown()).min(1, "Debe haber al menos un pallet en el pedido.")
     });
 
     type FormValidationSchema = z.infer<typeof formValidator>;
 
-    const { handleSubmit } = useForm<FormValidationSchema>({
+    const { handleSubmit, control, formState: { errors } } = useForm<FormValidationSchema>({
         defaultValues: {
             cliente: undefined,
-            fechaEntrega: new Date()
+            fechaEntrega: getTomorrowDate(),
+            palletsPedido: []
         },
         resolver: zodResolver(formValidator),
     });
 
-    function handleCreatePedido() {
+    const handleCreatePedido: SubmitHandler<FormValidationSchema> = (data) => {
         const obj: Pedido = {
-            cliente: cliente as Cliente,
-            fechaEntrega: formatDate(fechaEntrega),
+            cliente: data.cliente as Cliente,
+            fechaEntrega: formatDate(data.fechaEntrega ?? new Date()),
             pallets: palletsPedido
         }
-        
+
         createPedido(obj);
     }
 
     return (
-        <form id="form_div" className="card flex flex-column align-items-center gap-3 " onSubmit={() => handleSubmit(handleCreatePedido)}>
-            <div id="form_row" className="flex">
-                <Select
-                    id="tipo_input"
-                    placeholder="Cliente"
-                    options={clientes}
-                    addedClass="md:w-16rem"
-                    selectedValue={cliente as Cliente}
-                    setSelectedValue={(value) => setCliente(value as Cliente)}
-                    invalid={!!errors.tipo}
-                    helperText={errors.tipo}
-                    style={{ height: '3.8rem', borderColor: '#1f425d' }}
+        <form id="form_div" className="card flex flex-column align-items-center gap-3 " onSubmit={handleSubmit(handleCreatePedido)}>
+            <div id="" className="flex form_row">
+                <Controller
+                    name="cliente"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                            id="tipo_input"
+                            placeholder="Cliente"
+                            options={clientes}
+                            addedClass="md:w-16rem"
+                            selectedValue={field.value}
+                            setSelectedValue={field.onChange}
+                            invalid={!!errors.cliente}
+                            helperText={errors.cliente?.message}
+                        />
+                    )}
                 />
-                <Datepicker
-                    label="Fecha Entrega"
-                    value={fechaEntrega as Date}
-                    setValue={setFechaEntrega}
-                    minDate={new Date()}
-                    dateFormat="dd/MM/yyyy"
+                <Controller
+                    name="fechaEntrega"
+                    control={control}
+                    render={({ field }) => (
+                        <Datepicker
+                            label="Fecha Entrega"
+                            value={field.value as Date}
+                            setValue={(date) => field.onChange(date)}
+                            minDate={getTomorrowDate()}
+                            dateFormat="dd/mm/yy"
+                            helperText={errors.fechaEntrega?.message}
+                        />
+                    )}
                 />
             </div>
-            <TransferList left={pallets} setLeft={setPallets} right={palletsPedido} setRight={setPalletsPedido} />
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus onClick={handleCreatePedido} />
+            <div id="list_div" className="flex form_row">
+                <Controller
+                    name="palletsPedido"
+                    control={control}
+                    render={({ field }) => (
+                        <TransferList
+                            left={pallets}
+                            setLeft={setPallets}
+                            right={field.value as Pallet[]}
+                            setRight={field.onChange}
+                            invalid={!!errors.palletsPedido}
+                            helperText={errors.palletsPedido?.message}
+                        />
+                    )}
+                />
+            </div>
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
         </form>
     )
 }

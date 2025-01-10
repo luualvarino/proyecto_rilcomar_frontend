@@ -1,7 +1,6 @@
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 import React from "react";
+import { Calendar } from "primereact/calendar";
+import { FloatLabel } from "primereact/floatlabel";
 
 interface BaseDatePickerProps {
   label: string;
@@ -10,6 +9,8 @@ interface BaseDatePickerProps {
   dateFormat?: string;
   value: Date;
   setValue: (value: Date) => void;
+  helperText?: string;
+  invalid?: boolean;
 }
 
 const BaseDatePicker = ({
@@ -18,22 +19,29 @@ const BaseDatePicker = ({
   disabled,
   dateFormat,
   value,
-  setValue
+  setValue,
+  helperText,
+  invalid
 }: BaseDatePickerProps) => {
 
   return (
-    <div className="flex flex-column gap-2">
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label={label}
-          onChange={(value) => setValue(value as Date)}
+    <div className="flex-auto">
+      <FloatLabel>
+        <Calendar
           value={value}
+          onChange={(e) => setValue(e.value as Date)}
           minDate={minDate}
-          disabled={disabled ?? false}
-          format={dateFormat ?? "MM/dd/yyyy"}
-          // sx={{borderColor: '#1f425d'}}
+          disabled={disabled}
+          dateFormat={dateFormat}
+          showIcon //Cambiar color del boton
         />
-      </LocalizationProvider>
+        <label>{label}</label>
+      </FloatLabel>
+      {invalid &&
+        <small id="username-help" style={{ color: 'red' }}>
+          {helperText}
+        </small>
+      }
     </div>
   );
 };

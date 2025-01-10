@@ -1,4 +1,3 @@
-import {FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
 import React, { useRef, useState } from "react";
 import TableComponent, { ColumnProps } from "../../base/table/TableComponent.tsx";
 import "../../pallet/palletsTable/PalletsTable.css";

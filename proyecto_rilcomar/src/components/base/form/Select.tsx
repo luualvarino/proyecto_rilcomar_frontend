@@ -1,6 +1,7 @@
 import React, { CSSProperties, useState } from "react";
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { FloatLabel } from "primereact/floatlabel";
+import { InputLabel } from "@mui/material";
 
 interface SelectProps {
     id?: string;
@@ -28,7 +29,7 @@ export default function Select(
 
     return (
         <div className="flex flex-column gap-2">
-            <FloatLabel style={{marginTop: '1rem'}}>
+            <FloatLabel style={{ marginTop: '1rem' }}>
                 <Dropdown
                     id={id ?? ""}
                     value={selectedValue}
@@ -43,7 +44,7 @@ export default function Select(
                 <label>{placeholder}</label>
             </FloatLabel>
             {invalid &&
-                <small id="username-help">
+                <small id="username-help" style={{ color: 'red' }}>
                     {helperText}
                 </small>
             }

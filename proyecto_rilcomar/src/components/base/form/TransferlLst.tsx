@@ -29,10 +29,11 @@ interface TransferListProps {
   setLeft: (value: Pallet[]) => void;
   right: Pallet[];
   setRight: (value: Pallet[]) => void;
-
+  invalid?: boolean;
+  helperText?: string;
 }
 
-export default function TransferList({ left, setLeft, right, setRight }: TransferListProps) {
+export default function TransferList({ left, setLeft, right, setRight, invalid, helperText }: TransferListProps) {
 
   const [checked, setChecked] = useState<Pallet[]>([]);
 
@@ -76,7 +77,7 @@ export default function TransferList({ left, setLeft, right, setRight }: Transfe
   };
 
   const customList = (title: React.ReactNode, items: readonly Pallet[]) => (
-    <Card>
+    <Card variant='outlined'>
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={
@@ -135,37 +136,44 @@ export default function TransferList({ left, setLeft, right, setRight }: Transfe
   );
 
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{ justifyContent: 'center', alignItems: 'center' }}
-    >
-      <Grid item>{customList('Stock Pallets', left)}</Grid>
-      <Grid item>
-        <Grid container direction="column" sx={{ alignItems: 'center' }}>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-          >
-            &gt;
-          </Button>
-          <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-            aria-label="move selected left"
-          >
-            &lt;
-          </Button>
+    <div>
+      <Grid
+        container
+        spacing={2}
+        sx={{ justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Grid item>{customList('Stock Pallets', left)}</Grid>
+        <Grid item>
+          <Grid container direction="column" sx={{ alignItems: 'center' }}>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedRight}
+              disabled={leftChecked.length === 0}
+              aria-label="move selected right"
+            >
+              &gt;
+            </Button>
+            <Button
+              sx={{ my: 0.5 }}
+              variant="outlined"
+              size="small"
+              onClick={handleCheckedLeft}
+              disabled={rightChecked.length === 0}
+              aria-label="move selected left"
+            >
+              &lt;
+            </Button>
+          </Grid>
         </Grid>
+        <Grid item>{customList('Pallets Pedido', right)}</Grid>
       </Grid>
-      <Grid item>{customList('Pallets Pedido', right)}</Grid>
-    </Grid>
+      {invalid &&
+        <small id="username-help" style={{ color: 'red', marginTop: '1rem'}}>
+          {helperText}
+        </small>
+      }
+    </div>
   );
 }
