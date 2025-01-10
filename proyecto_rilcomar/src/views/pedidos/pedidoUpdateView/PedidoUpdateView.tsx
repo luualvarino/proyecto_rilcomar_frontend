@@ -2,15 +2,18 @@ import React from "react";
 import PedidoList from "../../../components/pedido/pedidoList/PedidoList.tsx";
 import { useGetPedido } from "../../../querys/PedidoQuerys.ts";
 import { useParams } from "react-router-dom";
+import Loader from "../../../components/base/loader/Loader.tsx";
 
-export default function PedidoUpdateView(){
+export default function PedidoUpdateView() {
     let params = useParams();
-    const {data} = useGetPedido(Number(params.pedidoId) ?? 0);
+    console.log(params);
+
+    const { data, isLoading } = useGetPedido(Number(params.pedidoId));
     console.log(data);
 
-    return(
+    return (
         <div>
-            <PedidoList pedido={data}/>
+            {isLoading ? <Loader /> : <PedidoList pedido={data} />}
         </div>
     )
 }

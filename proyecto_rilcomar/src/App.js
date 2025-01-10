@@ -16,13 +16,13 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/pallets', element: <PalletsView /> },
-        { path: '/pallets/palletId', element: <PalletsView /> },
+        { path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
-        { path: '/pedidos/pedidoId/detalle', element: <PedidoDetailView /> },
-        { path: '/pedidos/:pedidoId', element: <PedidoUpdateView /> },
+        { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
         { path: '/clientes', element: <ClientesView /> },
       ]
-    }
+    },
+    { path: '/pedidos/:pedidoId', element: <PedidoUpdateView /> },
   ])
 
   const queryClient = new QueryClient();
