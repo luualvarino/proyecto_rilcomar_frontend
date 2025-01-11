@@ -6,6 +6,7 @@ import PedidosView from './views/pedidos/pedidosView/PedidosView.tsx';
 import Layout from './views/layout/Layout.tsx';
 import PedidoDetailView from './views/pedidos/pedidoDetailView/PedidoDetailView.tsx';
 import ClientesView from './views/clientes/clientesView/ClientesView.tsx';
+import PedidoUpdateView from './views/pedidos/pedidoUpdateView/PedidoUpdateView.tsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -15,12 +16,13 @@ function App() {
       children: [
         { path: '/', element: <Home /> },
         { path: '/pallets', element: <PalletsView /> },
-        { path: '/pallets/palletId', element: <PalletsView /> },
+        { path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
-        { path: '/pedidos/pedidoId', element: <PedidoDetailView /> },
+        { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
         { path: '/clientes', element: <ClientesView /> },
       ]
-    }
+    },
+    { path: '/pedidos/:pedidoId', element: <PedidoUpdateView /> },
   ])
 
   const queryClient = new QueryClient();

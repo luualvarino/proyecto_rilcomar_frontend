@@ -18,15 +18,13 @@ export enum FormatoEnum {
 
 export enum EstadoEnum {
     Libre,
-    Procesando,
-    En_Viaje,
-    Entregado,
-    Completado
+    Ocupado,
+    Deshabilitado
 }
 
 interface Pallet {
     id?: number;
-    estado: string;
+    estado?: EstadoEnum;
     tipo: string;
     formato?: string;
     peso?: number;

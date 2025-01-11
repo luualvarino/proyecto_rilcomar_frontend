@@ -22,9 +22,8 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
     const [formato, setFormato] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
-    let data: any[] = [];
 
-    ({ data } = useGetPallets({ estado, tipo, formato }));
+    const { data } = useGetPallets({ estado, tipo, formato });
 
     const navigate = useNavigate();
 
@@ -38,11 +37,6 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
         }
     };
 
-    const estaDisponibleRender = (rowData: Pallet) => {
-        const estaDisp = rowData.estado.toString() === "Libre" ? "Si" : "No";
-        return <span>{estaDisp}</span>;
-    };
-
     const viewButtonRender = (rowData: Pallet) => {
         return <span>
             <Button id="view_btn" icon="pi pi-eye" rounded text size="large" onClick={() => navigate(`/pallets/${rowData.id}`, { state: { pallet: rowData } })} />
@@ -51,18 +45,17 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
-        { field: 'estado', header: 'Estado' },
         { field: 'tipo', header: 'Tipo' }, //Buscar forma de mostrar los valores escritos bien (con tilde)
         { field: 'formato', header: 'Formato' },
-        { field: 'estaDisponible', header: 'Esta Disponible', body: estaDisponibleRender },
+        { field: 'estado', header: 'Estado' },
         { field: 'observaciones', header: 'Observaciones' }
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
 
     const estados = Object.keys(EstadoEnum)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "));
+    .filter((key) => isNaN(Number(key)))
+    .map((key) => key);
 
     const tipos = Object.keys(MaterialEnum)
         .filter((key) => isNaN(Number(key)))
@@ -82,7 +75,7 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
                             options={estados}
                             addedClass="md:w-12rem"
                             selectedValue={estado}
-                            setSelectedValue={(value) => setEstado(value)}
+                            setSelectedValue={(value) => setEstado(value as string)}
                         />
                         <Button disabled={estado === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setEstado("")} />
                     </div>
@@ -92,7 +85,7 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
                             options={tipos}
                             addedClass="md:w-12rem"
                             selectedValue={tipo}
-                            setSelectedValue={(value) => setTipo(value)}
+                            setSelectedValue={(value) => setTipo(value as string)}
                         />
                         <Button disabled={tipo === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setTipo("")} />
                     </div>
@@ -102,7 +95,7 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
                             options={formatos}
                             addedClass="md:w-12rem"
                             selectedValue={formato}
-                            setSelectedValue={(value) => setFormato(value)}
+                            setSelectedValue={(value) => setFormato(value as string)}
                         />
                         <Button disabled={formato === ""} icon="pi pi-times" className="clear_btn" rounded text severity="contrast" onClick={() => setFormato("")} />
                     </div>

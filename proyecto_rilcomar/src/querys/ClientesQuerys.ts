@@ -2,7 +2,7 @@ import { queryOptions, useMutation, useQuery, useQueryClient } from "@tanstack/r
 import { Cliente } from "../models/Cliente";
 
 async function getClientesQuery(queryParams: string) {
-    const response = await fetch(`http://localhost:8080/rilcomar/clientes?${queryParams}`);
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}clientes?${queryParams}`);
 
     if (!response.ok) {
         throw new Error("Error al obtener los clientes");
@@ -14,13 +14,15 @@ async function getClientesQuery(queryParams: string) {
 interface getClientesFilters {
     // page?: number;
     // size?: number;
-    nombre: string;
+    nombre?: string;
 }
 
 const buildApiFilters = (filters: getClientesFilters) => {
     const queryParams = new URLSearchParams();
 
-    queryParams.append("nombre", filters.nombre.replace(" ", "_"));
+    if (filters.nombre) {
+        queryParams.append("nombre", filters.nombre.replace(" ", "_"));
+    }
 
     return queryParams.toString();
 };
@@ -40,7 +42,7 @@ export const useGetClientes = (filters: getClientesFilters) => {
 }
 
 async function addClienteQuery(cliente: Cliente) {
-    const response = await fetch("http://localhost:8080/rilcomar/clientes", {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}clientes`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -73,7 +75,7 @@ export const useAddCliente = ({
 }
 
 async function deleteClienteQuery(clienteId: number) {
-    const response = await fetch(`http://localhost:8080/rilcomar/clientes/${clienteId}`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}clientes/${clienteId}`, {
         method: 'DELETE',
     });
 
