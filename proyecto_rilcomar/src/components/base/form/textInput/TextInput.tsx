@@ -3,6 +3,7 @@ import { InputNumber } from "primereact/inputnumber";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React from "react";
+import "./TextInput.css";
 
 interface TextInputProps {
     id?: string;
@@ -36,32 +37,29 @@ export default function TextInput(
     return (
         <div id={id ?? ""} className="flex flex-column gap-2">
             <div className={`p-inputgroup flex-1 ${addedClass ?? ""}`}>
-                <FloatLabel style={{marginTop: '1rem'}}>
+                <FloatLabel style={{ marginTop: '1rem' }} className={prefix ? "with-prefix" : ""}>
                     {prefix && <span className="p-inputgroup-addon">{prefix}</span>}
-                    {isNumber ?
+                    {isNumber ? (
                         <InputNumber
                             invalid={invalid}
                             value={value as number}
                             onValueChange={(e) => setValue(e.value ?? 0)}
                         />
-                        :
-                        isMultiline ?
-                            <InputTextarea
-                                autoResize
-                                placeholder={placeholder}
-                                rows={5}
-                                value={value as string}
-                                onChange={(e) => setValue(e.target.value)}
-                                invalid={invalid}
-                            />
-                            :
-                            <InputText
-                                placeholder={placeholder}
-                                value={value as string}
-                                onChange={(e) => setValue(e.target.value)}
-                                invalid={invalid}
-                            />
-                    }
+                    ) : isMultiline ? (
+                        <InputTextarea
+                            autoResize
+                            rows={5}
+                            value={value as string}
+                            onChange={(e) => setValue(e.target.value)}
+                            invalid={invalid}
+                        />
+                    ) : (
+                        <InputText
+                            value={value as string}
+                            onChange={(e) => setValue(e.target.value)}
+                            invalid={invalid}
+                        />
+                    )}
                     {suffix && <span className="p-inputgroup-addon">{suffix}</span>}
                     <label>{placeholder}</label>
                 </FloatLabel>

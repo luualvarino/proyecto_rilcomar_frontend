@@ -17,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 
 export default function PedidoForm({ createdPedido }) {
-    const [palletsPedido] = useState<Pallet[]>([]);
     const { data: clientes } = useGetClientes({});
     const { data } = useGetPallets({ estado: "Libre" });
     const [pallets, setPallets] = useState<Pallet[]>([]);
