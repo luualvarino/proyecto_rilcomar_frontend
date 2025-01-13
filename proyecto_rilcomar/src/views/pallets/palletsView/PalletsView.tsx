@@ -28,7 +28,7 @@ export default function PalletsView() {
             <Toast ref={toast} />
             <div id="table_header_div" className="card flex" style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
                 <h1 id="pallets_title">Pallets</h1>
-                <Button id="add_pallet_btn" label="Agregar Pallet" icon="pi pi-plus" onClick={() => setVisible(true)} />
+                <Button id="add_pallet_btn" className="button_filled" label="Agregar Pallet" icon="pi pi-plus" onClick={() => setVisible(true)} />
             </div>
             <PalletsTable selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
             <BaseDialog header="Nuevo Pallet" content={<PalletForm addedPallet={showNotification} />} visible={visible} setVisible={setVisible} />

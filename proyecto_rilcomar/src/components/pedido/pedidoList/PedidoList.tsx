@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { OrderList } from 'primereact/orderlist';
 import { Pallet } from '../../../models/Pallet';
 import { Pedido } from '../../../models/Pedido';
@@ -16,7 +16,6 @@ export default function PedidoList({ pedido }: PedidoListProps) {
                 <div className="flex-1 flex flex-column gap-2 xl:mr-8">
                     <span className="font-bold">{pallet.id}</span>
                     <div className="flex align-items-center gap-2">
-                        <i className="pi pi-tag text-sm"></i>
                         <span>{pallet.estado}</span>
                     </div>
                 </div>

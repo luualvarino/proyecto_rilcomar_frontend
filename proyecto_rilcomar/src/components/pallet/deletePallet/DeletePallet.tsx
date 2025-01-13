@@ -28,7 +28,7 @@ export default function DeletePallet({ selectedPallets, closeModal, showNotifica
             </ul>
 
             <div>
-                <Button label="Confirmar" icon="pi pi-check" onClick={handleDeletePallet} />
+                <Button label="Confirmar" icon="pi pi-check" className="button_filled" onClick={handleDeletePallet} />
                 <Button label="Cancelar" severity="secondary" icon="pi pi-times" style={{ marginLeft: '0.5em' }} onClick={closeModal} />
             </div>
         </div>
