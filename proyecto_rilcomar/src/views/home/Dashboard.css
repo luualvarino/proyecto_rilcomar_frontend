@@ -1,0 +1,12 @@
+
+#dash_div {
+    display: flex;
+    justify-content: center;
+}
+
+#dash_subtitle {
+    margin-top: 10rem;
+    padding: 1rem;
+    border: 5px solid #1f425d;
+    border-radius: 1rem;
+}

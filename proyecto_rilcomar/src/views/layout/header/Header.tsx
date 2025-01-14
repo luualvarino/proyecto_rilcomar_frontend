@@ -7,9 +7,12 @@ import { Menubar } from 'primereact/menubar';
 import { Badge } from 'primereact/badge';
 import { useNavigate } from 'react-router-dom';
 
+
 export default function CustomDemo() {
 
     const navigate = useNavigate();
+
+    const userRole = "admin"; //provisorio
 
     const startContent = (
         <React.Fragment>
@@ -26,7 +29,7 @@ export default function CustomDemo() {
         </a>
     );
     
-    const items = [
+    const adminItems = [
         {
             id: 'home_item',
             label: 'Home',
@@ -48,6 +51,31 @@ export default function CustomDemo() {
             icon: 'pi pi-star',
             command: () => navigate('/clientes')
         },
+    ];
+
+    //header clientes
+    const clienteItems = [
+        {
+            id: 'home_item_cliente',
+            label: 'Dashboard',
+            icon: 'pi pi-home',
+            command: () => navigate('/')
+        },
+        {
+            label: 'Historial',
+            icon: 'pi pi-star',
+            command: () => navigate('/historial')
+        },
+        {
+            label: 'Usuarios',
+            icon: 'pi pi-star',
+            command: () => navigate('/usuarios')
+        },
+    ];
+
+    const items = [
+        ...(userRole === 'admin' ? adminItems : []),
+        ...(userRole === 'cliente' ? clienteItems : []),
     ];
 
     const endContent = (

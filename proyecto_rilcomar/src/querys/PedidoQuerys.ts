@@ -105,3 +105,32 @@ export const useDeletePedido = ({
         }
     })
 }
+
+async function getPalletsQuery(pedidoId: number) {
+    const response = await fetch(`http://localhost:8080/rilcomar/pedidos/${pedidoId}/pallets`);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener la cantidad de pallets");
+    }
+    const data = await response.json();
+    return data;
+}
+
+const getCantPalletsPedido = {
+    key: () => ["pedidos"],
+    lists: () => [...getPedidos.key(), "list"] as const,
+    list: (filters: getPedidosFilters) =>
+        queryOptions({
+            queryKey: [...getPedidos.lists(), { ...filters }],
+            queryFn: () => getPedidosQuery(buildApiFilters(filters)),
+        }),
+    pallets: (pedidoId: number) =>
+        queryOptions({
+            queryKey: [...getPedidos.key(), "pallets", pedidoId],
+            queryFn: () => getPalletsQuery(pedidoId),
+        }),
+};
+
+export const useGetPallets = (pedidoId: number) => {
+    return useQuery(getCantPalletsPedido.pallets(pedidoId));
+};
