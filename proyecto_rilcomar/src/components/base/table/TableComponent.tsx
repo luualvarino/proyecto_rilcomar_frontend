@@ -46,7 +46,7 @@ export default function TableComponent(
         onSelectionChange={(e) => setSelectedRows?.(e.value as DataTableValueArray)}
         dataKey="id"
       >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+        {selectedRows.length > 0 && <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>}
         {columns.map(col => (
           <Column key={col.field} field={col.field} header={col.header} body={col.body} />
         ))}

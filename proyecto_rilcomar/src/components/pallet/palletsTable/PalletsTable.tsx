@@ -54,8 +54,8 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
     const paginationModel = { page: 0, pageSize: 5 };
 
     const estados = Object.keys(EstadoEnum)
-    .filter((key) => isNaN(Number(key)))
-    .map((key) => key);
+        .filter((key) => isNaN(Number(key)))
+        .map((key) => key);
 
     const tipos = Object.keys(MaterialEnum)
         .filter((key) => isNaN(Number(key)))

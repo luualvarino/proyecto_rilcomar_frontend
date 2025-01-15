@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import PedidoList from "../../../components/pedido/pedidoList/PedidoList.tsx";
+import PedidoList from "../../../components/pedido/palletsList/PalletsList.tsx";
 import { useEditPedido, useGetPedido } from "../../../querys/PedidoQuerys.ts";
 import { useParams } from "react-router-dom";
 import Loader from "../../../components/base/loader/Loader.tsx";

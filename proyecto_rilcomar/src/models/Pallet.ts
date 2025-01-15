@@ -31,6 +31,7 @@ interface Pallet {
     dimensiones?: string;
     observaciones?: string;
     ubicacion?: string;
+    pedidoActual?: Pedido;
     historial?: Pedido[];
 }
 

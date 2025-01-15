@@ -4,22 +4,22 @@ import { OrderList } from 'primereact/orderlist';
 import { Pallet } from '../../../models/Pallet';
 import { Pedido } from '../../../models/Pedido';
 
-interface PedidoListProps {
+interface PalletsListProps {
     pedido: Pedido;
 }
 
-export default function PedidoList({ pedido }: PedidoListProps) {
+export default function PalletsList({ pedido }: PalletsListProps) {
 
     const itemTemplate = (pallet: Pallet) => {
         return (
             <div className="flex flex-wrap p-2 align-items-center gap-3">
                 <div className="flex-1 flex flex-column gap-2 xl:mr-8">
-                    <span className="font-bold">{pallet.id}</span>
+                    <span className="font-bold">{pallet.id} - {pallet.formato}</span>
                     <div className="flex align-items-center gap-2">
-                        <span>{pallet.estado}</span>
+                        <span>{pallet.peso}Kg</span>
                     </div>
                 </div>
-                <span className="font-bold text-900">${pallet.observaciones}</span>
+                <span className="font-bold text-900">{pallet.observaciones}</span>
             </div>
         );
     };

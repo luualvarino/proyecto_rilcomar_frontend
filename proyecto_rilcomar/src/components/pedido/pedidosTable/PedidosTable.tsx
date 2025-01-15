@@ -7,18 +7,19 @@ import Select from "../../base/form/Select.tsx";
 import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
 import { EstadoEnum, Pedido } from "../../../models/Pedido.ts";
 import { DataTableValueArray } from "primereact/datatable";
-import { useNavigate } from "react-router-dom";
 import DeletePedido from "../deletePedido/DeletePedido.tsx";
 import BaseDialog from "../../base/dialog/BaseDialog.tsx";
+import PalletsList from "../palletsList/PalletsList.tsx";
 
 
 export default function PedidosTable() {
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const [estado, setEstado] = useState("");
+    const [selectedPedido, setSelectedPedido] = useState<Pedido>();
     const [showModal, setShowModal] = useState(false);
+    const [showDetail, setShowDetail] = useState(false);
     const toast = useRef<Toast>(null);
     const { data } = useGetPedidos({ estado });
-    const navigate = useNavigate();
 
     function showNotification(data) {
         console.log(data);
@@ -32,7 +33,7 @@ export default function PedidosTable() {
 
     const viewButtonRender = (rowData: Pedido) => {
         return <span>
-            <Button id="view_btn" icon="pi pi-eye" rounded text size="large" onClick={() => navigate(`/pedidos/${rowData.id}`, { state: { pedido: rowData } })} />
+            <Button id="view_btn" icon="pi pi-eye" rounded text size="large" onClick={() => { setSelectedPedido(rowData); setShowDetail(true); }} />
         </span>
     }
 
@@ -95,6 +96,16 @@ export default function PedidosTable() {
                     />}
                 visible={showModal}
                 setVisible={(value) => setShowModal(value)}
+                width="30vw"
+            />
+            <BaseDialog
+                header="Detalle Pedido"
+                content={
+                    <PalletsList
+                        pedido={selectedPedido as Pedido}
+                    />}
+                visible={showDetail}
+                setVisible={setShowDetail}
                 width="30vw"
             />
         </div>
