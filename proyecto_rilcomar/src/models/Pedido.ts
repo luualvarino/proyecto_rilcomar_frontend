@@ -10,8 +10,4 @@ interface Pedido {
     ubicacion: string;
 }
 
-interface Props {
-    pedidos: Pedido[];
-}
-
 export type { Pedido }

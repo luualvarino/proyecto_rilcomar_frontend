@@ -39,6 +39,33 @@ export const useGetPedidos = (filters: getPedidosFilters) => {
     return useQuery(getPedidos.list(filters));
 }
 
+async function getPedidosClienteQuery(queryParams: string) {
+    const response = await fetch(`http://localhost:8080/rilcomar/pedidos?${queryParams}`); //cambiar url
+
+    if (!response.ok) {
+        throw new Error("Error al obtener los pedidos");
+    }
+    const data = await response.json();
+    return data;
+}
+
+const getPedidosCliente = {
+    key: () => ["pedidos"],
+    lists: () => [...getPedidosCliente.key(), "list"] as const,
+    list: (clienteId: number) =>
+        queryOptions({
+            queryKey: [...getPedidosCliente.lists(), { clienteId }],
+            queryFn: () => getPedidosClienteQuery(`clienteId=${clienteId}`),
+        }),
+};
+
+
+    //para obtener los pedidos de por cliente con estado Completado
+    export const useGetPedidosCliente = (clienteId: number) => {
+        return useQuery(getPedidosCliente.list(clienteId));
+    };
+    
+
 async function addPedidoQuery(pedido: Pedido) {
     const response = await fetch("http://localhost:8080/rilcomar/pedidos", {
         method: 'POST',
@@ -106,31 +133,3 @@ export const useDeletePedido = ({
     })
 }
 
-async function getPalletsQuery(pedidoId: number) {
-    const response = await fetch(`http://localhost:8080/rilcomar/pedidos/${pedidoId}/pallets`);
-
-    if (!response.ok) {
-        throw new Error("Error al obtener la cantidad de pallets");
-    }
-    const data = await response.json();
-    return data;
-}
-
-const getCantPalletsPedido = {
-    key: () => ["pedidos"],
-    lists: () => [...getPedidos.key(), "list"] as const,
-    list: (filters: getPedidosFilters) =>
-        queryOptions({
-            queryKey: [...getPedidos.lists(), { ...filters }],
-            queryFn: () => getPedidosQuery(buildApiFilters(filters)),
-        }),
-    pallets: (pedidoId: number) =>
-        queryOptions({
-            queryKey: [...getPedidos.key(), "pallets", pedidoId],
-            queryFn: () => getPalletsQuery(pedidoId),
-        }),
-};
-
-export const useGetPallets = (pedidoId: number) => {
-    return useQuery(getCantPalletsPedido.pallets(pedidoId));
-};
