@@ -66,8 +66,6 @@ export const useGetPedido = (pedidoId: number) => {
 }
 
 async function createPedidoQuery(pedido: Pedido) {
-    console.log("create");
-
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
         method: 'POST',
         headers: {
@@ -90,6 +88,39 @@ export const useCreatePedido = ({
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (pedido: Pedido) => createPedidoQuery(pedido),
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ["pedidos"] });
+            onSuccessFn(data);
+        },
+        onError: (data) => {
+            onErrorFn(data);
+        }
+    })
+}
+
+async function editPedidoQuery(pedido: Pedido) {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(pedido),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al editar el pedido");
+    }
+    const data = await response.json();
+    return data;
+}
+
+export const useEditPedido = ({
+    onSuccessFn,
+    onErrorFn
+}) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (pedido: Pedido) => editPedidoQuery(pedido),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["pedidos"] });
             onSuccessFn(data);

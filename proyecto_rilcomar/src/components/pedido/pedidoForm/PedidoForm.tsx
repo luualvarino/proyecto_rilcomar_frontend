@@ -1,9 +1,9 @@
 import { Button } from "primereact/button";
 import React, { useEffect, useState } from "react";
 import { z } from "zod";
-import { EstadoEnum, Pallet } from "../../../models/Pallet.ts";
+import { Pallet } from "../../../models/Pallet.ts";
 import Select from "../../base/form/Select.tsx";
-import { useGetClientes } from "../../../querys/ClientesQuerys.ts";
+import { useGetClientes } from "../../../querys/ClienteQuerys.ts";
 import { Cliente } from "../../../models/Cliente";
 import Datepicker from "../../base/form/Datepicker.tsx";
 import TransferList from "../../base/form/TransferlLst.tsx";
@@ -17,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 
 export default function PedidoForm({ createdPedido }) {
-    const [palletsPedido] = useState<Pallet[]>([]);
     const { data: clientes } = useGetClientes({});
     const { data } = useGetPallets({ estado: "Libre" });
     const [pallets, setPallets] = useState<Pallet[]>([]);
@@ -29,7 +28,7 @@ export default function PedidoForm({ createdPedido }) {
 
     useEffect(() => {
         if (data) {
-            setPallets(data.filter((pallet: Pallet) => pallet.estado?.toString() === "Libre"));
+            setPallets(data);
         }
     }, [data]);
 
@@ -57,19 +56,19 @@ export default function PedidoForm({ createdPedido }) {
         resolver: zodResolver(formValidator),
     });
 
-    const handleCreatePedido: SubmitHandler<FormValidationSchema> = (data) => {
+    const handleCreatePedido: SubmitHandler<FormValidationSchema> = (data) => {        
         const obj: Pedido = {
             cliente: data.cliente as Cliente,
             fechaEntrega: formatDate(data.fechaEntrega ?? new Date()),
-            pallets: palletsPedido
-        }
+            pallets: data.palletsPedido as Pallet[]
+        }        
 
         createPedido(obj);
     }
 
     return (
-        <form id="form_div" className="card flex flex-column align-items-center gap-3 " onSubmit={handleSubmit(handleCreatePedido)}>
-            <div id="" className="flex form_row">
+        <form id="form_div" className="card flex flex-column align-items-center gap-3" onSubmit={handleSubmit(handleCreatePedido)}>
+            <div className="flex form_row">
                 <Controller
                     name="cliente"
                     control={control}

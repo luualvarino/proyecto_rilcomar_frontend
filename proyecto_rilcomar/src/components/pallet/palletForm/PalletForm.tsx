@@ -1,19 +1,16 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { FormatoEnum, MaterialEnum, Pallet } from "../../../models/Pallet.ts";
 import Select from "../../base/form/Select.tsx";
-import TextInput from "../../base/form/TextInput.tsx";
 import "./PalletForm.css";
 import { Button } from "primereact/button";
 import { z } from "zod";
 import { useAddPallet } from "../../../querys/PalletQuerys.ts";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import TextInput from "../../base/form/textInput/TextInput.tsx";
 
 
 export default function PalletForm({ addedPallet }) {
-    const [tipo, setTipo] = useState("");
-    const [peso, setPeso] = useState<number>();
-    const [formato, setFormato] = useState("");
-    const [observaciones, setObservaciones] = useState("");
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const { mutate: addPallet } = useAddPallet({
         onSuccessFn: (data: Pallet) => { addedPallet(data) },
         onErrorFn: () => { addedPallet(null) }
@@ -26,6 +23,18 @@ export default function PalletForm({ addedPallet }) {
         observaciones: z.string().max(255, "Las observaciones no pueden exceder los 255 caracteres."),
     });
 
+    type FormValidationSchema = z.infer<typeof formValidator>;
+
+    const { handleSubmit, control, formState: { errors } } = useForm<FormValidationSchema>({
+        defaultValues: {
+            tipo: "",
+            peso: 0,
+            formato: "",
+            observaciones: ""
+        },
+        resolver: zodResolver(formValidator),
+    });
+
     const materialOptions = Object.keys(MaterialEnum)
         .filter((key) => isNaN(Number(key)))
         .map((key) => key);
@@ -34,78 +43,86 @@ export default function PalletForm({ addedPallet }) {
         .filter((key) => isNaN(Number(key)))
         .map((key) => key.replace("_", " "));
 
-    function handleAddPallet() {
-
+    const handleAddPallet: SubmitHandler<FormValidationSchema> = (data) => {
         const obj: Pallet = {
-            tipo: tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-            peso,
-            formato,
-            observaciones
+            tipo: data.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            peso: data.peso,
+            formato: data.formato,
+            observaciones: data.observaciones
         }
-
-        const validationResult = formValidator.safeParse(obj);
-
-        if (!validationResult.success) {
-            const fieldErrors = validationResult.error.format();
-            setErrors({
-                tipo: fieldErrors.tipo?._errors?.[0] || "",
-                peso: fieldErrors.peso?._errors?.[0] || "",
-                formato: fieldErrors.formato?._errors?.[0] || "",
-                observaciones: fieldErrors.observaciones?._errors?.[0] || "",
-            });
-            return;
-        }
-
-        setErrors({});
 
         addPallet(obj);
     }
 
     return (
-        <div id="form_div" className="card flex flex-column align-items-center gap-3 ">
+        <form id="form_div" className="card flex flex-column align-items-center gap-3" onSubmit={handleSubmit(handleAddPallet)}>
             <div id="form_row" className="flex">
-                <Select
-                    id="tipo_input"
-                    placeholder="Tipo"
-                    options={materialOptions}
-                    addedClass="md:w-10rem"
-                    selectedValue={tipo}
-                    setSelectedValue={(value) => setTipo(value as string)}
-                    invalid={!!errors.tipo}
-                    helperText={errors.tipo}
+                <Controller
+                    name="tipo"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                            id="tipo_input"
+                            placeholder="Tipo"
+                            options={materialOptions}
+                            addedClass="md:w-10rem"
+                            selectedValue={field.value}
+                            setSelectedValue={field.onChange}
+                            invalid={!!errors.tipo}
+                            helperText={errors.tipo?.message}
+                        />
+                    )}
                 />
-                <TextInput
-                    id="peso_input"
-                    placeholder="Peso"
-                    suffix="Kg"
-                    isNumber={true}
-                    addedClass="md:w-10rem"
-                    value={peso as number}
-                    setValue={(value) => setPeso(value as number)}
-                    invalid={!!errors.peso}
-                    helperText={errors.peso}
+                <Controller
+                    name="peso"
+                    control={control}
+                    render={({ field }) => (
+                        <TextInput
+                            id="peso_input"
+                            placeholder="Peso"
+                            suffix="Kg"
+                            isNumber={true}
+                            addedClass="md:w-10rem"
+                            value={field.value}
+                            setValue={field.onChange}
+                            invalid={!!errors.peso}
+                            helperText={errors.peso?.message}
+                        />
+                    )}
                 />
             </div>
-            <Select
-                id="formato_input"
-                placeholder="Formato"
-                options={formatoOptions}
-                addedClass="md:w-24rem"
-                selectedValue={formato}
-                setSelectedValue={(value) => setFormato(value as string)}
-                invalid={!!errors.formato}
-                helperText={errors.formato}
+            <Controller
+                name="formato"
+                control={control}
+                render={({ field }) => (
+                    <Select
+                        id="formato_input"
+                        placeholder="Formato"
+                        options={formatoOptions}
+                        addedClass="md:w-24rem"
+                        selectedValue={field.value}
+                        setSelectedValue={field.onChange}
+                        invalid={!!errors.formato}
+                        helperText={errors.formato?.message}
+                    />
+                )}
             />
-            <TextInput
-                placeholder="Observaciones"
-                isMultiline={true}
-                addedClass="md:w-24rem"
-                value={observaciones}
-                setValue={(value) => setObservaciones(value as string)}
-                invalid={!!errors.observaciones}
-                helperText={errors.observaciones}
+            <Controller
+                name="observaciones"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        placeholder="Observaciones"
+                        isMultiline={true}
+                        addedClass="md:w-24rem"
+                        value={field.value}
+                        setValue={field.onChange}
+                        invalid={!!errors.observaciones}
+                        helperText={errors.observaciones?.message}
+                    />
+                )}
             />
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus onClick={handleAddPallet} />
-        </div>
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
+        </form>
     )
 }
