@@ -14,7 +14,7 @@
     align-items: baseline;
 }
 
-.clear_btn {
+.clear_btn, #view_btn {
     color: #1f425d;
 }
 
