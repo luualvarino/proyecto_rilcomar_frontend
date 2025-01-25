@@ -7,6 +7,8 @@ import Layout from './views/layout/Layout.tsx';
 import PedidoDetailView from './views/pedidos/pedidoDetailView/PedidoDetailView.tsx';
 import ClientesView from './views/clientes/clientesView/ClientesView.tsx';
 import PedidoUpdateView from './views/pedidos/pedidoUpdateView/PedidoUpdateView.tsx';
+import Login from './views/login/Login.tsx';
+
 
 function App() {
   const router = createBrowserRouter([
@@ -14,7 +16,8 @@ function App() {
       path: '/',
       element: <Layout />,
       children: [
-        { path: '/', element: <Home /> },
+        { path: '/', element: <Login /> },
+        { path: '/home', element: <Home /> },
         { path: '/pallets', element: <PalletsView /> },
         { path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
