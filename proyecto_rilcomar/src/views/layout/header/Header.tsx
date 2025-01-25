@@ -48,6 +48,12 @@ export default function CustomDemo() {
             icon: 'pi pi-star',
             command: () => navigate('/clientes')
         },
+        {
+            //la dejo aca para probar, hay que agegar que se vea solo cuando el usuairo es cliente
+            label: 'Historial',
+            icon: 'pi pi-star',
+            command: () => navigate('/pedidosCliente')
+        },
     ];
 
     const endContent = (
