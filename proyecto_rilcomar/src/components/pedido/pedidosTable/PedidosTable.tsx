@@ -8,6 +8,8 @@ import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
 import { EstadoEnum, Pedido } from "../../../models/Pedido.ts";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
+import DeletePedido from "../deletePedido/DeletePedido.tsx";
+import BaseDialog from "../../base/dialog/BaseDialog.tsx";
 
 
 export default function PedidosTable() {
@@ -47,8 +49,7 @@ export default function PedidosTable() {
 
     const estados = Object.keys(EstadoEnum)
         .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "))
-        .filter(estado => estado !== "Libre");
+        .map((key) => key.replace("_", " "));
 
     const renderHeader = () => {
         return (
@@ -84,18 +85,18 @@ export default function PedidosTable() {
                 rowClick={false}
                 rowAction={viewButtonRender}
             />
-            {/* <BaseDialog
-                header={selectedRows.length > 1 ? "Desea eliminar los Pallets seleccionados?" : "Desea eliminar el Pallet seleccionado?"}
+            <BaseDialog
+                header={selectedRows.length > 1 ? "Desea eliminar los Pedidos seleccionados?" : "Desea eliminar el Pedido seleccionado?"}
                 content={
-                    <DeletePallet
-                        selectedPallets={selectedRows}
+                    <DeletePedido
+                        selectedPedidos={selectedRows}
                         closeModal={() => { setShowModal(false); setSelectedRows([]); }}
                         showNotification={showNotification}
                     />}
                 visible={showModal}
                 setVisible={(value) => setShowModal(value)}
                 width="30vw"
-            /> */}
+            />
         </div>
     )
 }

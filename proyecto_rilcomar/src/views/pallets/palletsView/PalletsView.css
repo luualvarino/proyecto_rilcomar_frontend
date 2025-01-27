@@ -13,3 +13,9 @@
     background-color: #4ab9cf;
     border-color: #4ab9cf;
 }
+
+#add_pallet_btn:hover {
+    background-color: #3a98a7;
+    border-color: #3a98a7;
+    cursor: pointer;
+}

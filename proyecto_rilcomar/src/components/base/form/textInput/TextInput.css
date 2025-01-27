@@ -1,0 +1,7 @@
+.p-float-label.with-prefix label {
+    margin-left: 4rem;
+}
+
+.p-float-label label {
+    margin-left: 0;
+}
