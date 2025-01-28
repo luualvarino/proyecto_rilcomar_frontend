@@ -3,7 +3,7 @@ import React from "react";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TextInput from "../../components/base/form/TextInput.tsx";
+import TextInput from "../../components/base/form/textInput/TextInput.tsx";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../querys/UsuarioQuerys.ts";
 

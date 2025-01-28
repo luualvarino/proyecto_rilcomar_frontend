@@ -6,7 +6,7 @@ interface LoginData {
     password: string;
 }
 
-// Función para realizar el POST al backend para el login
+
 async function loginQuery(data: LoginData): Promise<Usuario> {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}login`, {
         method: "POST",
@@ -24,7 +24,7 @@ async function loginQuery(data: LoginData): Promise<Usuario> {
     return user;
 }
 
-// Hook para manejar el login
+
 export const useLogin = ({
     onSuccessFn,
     onErrorFn,
