@@ -7,7 +7,6 @@ import { useGetPedidosXCliente } from "../../../querys/PedidoQuerys.ts";
 import { Pedido } from "../../../models/Pedido.ts";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
-import { EstadoEnum } from "../../../models/Pedido.ts";
 
 
 export default function PedidosClienteTable() {
@@ -15,8 +14,8 @@ export default function PedidosClienteTable() {
 
     const toast = useRef<Toast>(null);
 
-    const clienteId = 1;
-    const estado = "Completado";
+    const clienteId = 52;
+    const estado = "Finalizado";
 
     const { data } = useGetPedidosXCliente({
         clienteId,
@@ -40,7 +39,6 @@ export default function PedidosClienteTable() {
     ];
 
     const paginationModel = { page: 0, pageSize: 5 };
-
     return (
         <div>
             <Toast ref={toast} />

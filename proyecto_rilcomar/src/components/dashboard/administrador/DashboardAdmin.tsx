@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useGetPalletsCount } from "../../../querys/PalletQuerys.ts";
-import { useGetPedidos } from "../../../querys/PedidoQuerys.ts";
+import { useGetPedidosNoFinalizados } from "../../../querys/PedidoQuerys.ts";
 import "../Dashboard.css";
 import { DataTableValueArray } from "primereact/datatable";
 import { Toast } from "primereact/toast";
@@ -14,8 +14,8 @@ const DashboardAdmin = () => {
     //parte de pedidos
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const toast = useRef<Toast>(null);
-    const [estado] = useState("Creado"); //Entregado
-    const { data: pedidoData } = useGetPedidos({ estado });
+    const [estado] = useState("Finalizado"); 
+    const { data: pedidoData } = useGetPedidosNoFinalizados({ estado });
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
@@ -43,6 +43,10 @@ const DashboardAdmin = () => {
                         <div className="dashboard-item">
                             <h2>Ocupados</h2>
                             <p className="blue">{palletData?.Ocupado || 0}</p>
+                        </div>
+                        <div className="dashboard-item">
+                            <h2>Total</h2>
+                            <p className="blue">{(palletData?.Ocupado + palletData?.Libre) || 0}</p>
                         </div>
                     </div>
                 )}
