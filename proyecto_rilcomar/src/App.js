@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './views/home/Home.tsx';
 import PalletsView from './views/pallets/palletsView/PalletsView.tsx';
 import PedidosView from './views/pedidos/pedidosView/PedidosView.tsx';
+import PedidosClienteView from './views/pedidos/pedidoClienteView/PedidoClienteView.tsx';
 import Layout from './views/layout/Layout.tsx';
 import PedidoDetailView from './views/pedidos/pedidoDetailView/PedidoDetailView.tsx';
 import ClientesView from './views/clientes/clientesView/ClientesView.tsx';
@@ -19,6 +20,7 @@ function App() {
         { path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
         { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
+        { path: '/pedidosCliente', element: <PedidosClienteView /> },
         { path: '/clientes', element: <ClientesView /> },
       ]
     },

@@ -11,7 +11,7 @@ export enum EstadoEnum {
 
 interface Pedido {
     id?: number;
-    estado?: string;
+    estado?: EstadoEnum;
     cliente: Cliente;
     fechaCreacion?: string;
     fechaEntrega: string;
