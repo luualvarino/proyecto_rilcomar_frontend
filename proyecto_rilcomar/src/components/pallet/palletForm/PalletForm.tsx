@@ -21,6 +21,7 @@ export default function PalletForm({ addedPallet }) {
         peso: z.number().min(1, "El peso debe ser mayor a 0."),
         formato: z.string().min(1, "El formato es obligatorio."),
         observaciones: z.string().max(255, "Las observaciones no pueden exceder los 255 caracteres."),
+        cantidad: z.number().min(1, "La cantidad debe ser mayor a 0."),
     });
 
     type FormValidationSchema = z.infer<typeof formValidator>;
@@ -30,7 +31,8 @@ export default function PalletForm({ addedPallet }) {
             tipo: "",
             peso: 0,
             formato: "",
-            observaciones: ""
+            observaciones: "",
+            cantidad: 1,
         },
         resolver: zodResolver(formValidator),
     });
@@ -48,10 +50,12 @@ export default function PalletForm({ addedPallet }) {
             tipo: data.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             peso: data.peso,
             formato: data.formato,
-            observaciones: data.observaciones
+            observaciones: data.observaciones,
         }
+        const cantidad = data.cantidad;
+        console.log("Enviando -> PALLET:", obj, "CANTIDAD:", cantidad);
 
-        addPallet(obj);
+        addPallet({ pallet: obj, cantidad });
     }
 
     return (
@@ -104,6 +108,22 @@ export default function PalletForm({ addedPallet }) {
                         setSelectedValue={field.onChange}
                         invalid={!!errors.formato}
                         helperText={errors.formato?.message}
+                    />
+                )}
+            />
+            <Controller
+                name="cantidad"
+                control={control}
+                render={({ field }) => (
+                    <TextInput
+                        id="cantidad_input"
+                        placeholder="Cantidad"
+                        isNumber={true}
+                        addedClass="md:w-24rem"
+                        value={field.value}
+                        setValue={field.onChange}
+                        invalid={!!errors.cantidad}
+                        helperText={errors.cantidad?.message}
                     />
                 )}
             />
