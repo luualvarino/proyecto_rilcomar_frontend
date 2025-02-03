@@ -142,3 +142,18 @@ export const useDeletePallet = ({
         }
     })
 }
+
+async function getPalletsCountQuery() {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets/countByEstado`);
+    if (!response.ok) {
+        throw new Error("Error al obtener el conteo de pallets");
+    }
+    return response.json();
+}
+
+export const useGetPalletsCount = () => {
+    return useQuery({
+        queryKey: ["pallets", "count"],
+        queryFn: getPalletsCountQuery,
+    });
+};
