@@ -102,7 +102,7 @@ async function editPedidoQuery(pedido: Pedido) {
     //console.log("Pedido a enviar:", pedido);
     const pedidoCorregido = {
         ...pedido,
-        estado: pedido.estado.replace(/ /g, "_") // Reemplaza espacios por "_"
+        estado: pedido.estado.replace(/ /, "_") // Reemplaza espacios por "_"
     };
     console.log("Pedido a enviar:", pedidoCorregido);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {

@@ -79,6 +79,9 @@ export default function PedidoUpdateView() {
                     <div id="button_div" className="flex flex-column align-items-center">
                         <Button id="button_update" className="button_filled" label="Actualizar" icon="pi pi-check" autoFocus type="button" onClick={handleEditarPedido} />
                     </div>
+                    <div id="button_div" className="flex flex-column align-items-center">
+                        <Button label="Volver" icon="pi pi-arrow-left" className="button_filled" onClick={() => window.history.back()} />
+                    </div>
                 </Card>
             }
         </div>

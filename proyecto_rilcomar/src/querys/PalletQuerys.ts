@@ -164,3 +164,35 @@ export const useGetPalletsCount = () => {
         queryFn: getPalletsCountQuery,
     });
 };
+
+
+async function getPalletQuery(palletId: number) {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets/${palletId}`);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener el pallet");
+    }
+    const data = await response.json();
+
+    console.log("QRCode Pallet", data.qrCode);
+
+    if (data.qrCode) {
+        data.qrCode = `data:image/png;base64,${data.qrCode}`;
+    }
+
+    return data;
+}
+
+const getPallet = {
+    key: () => ["pallets"],
+    details: () => [...getPallet.key(), "details"] as const,
+    detail: (palletId: number) =>
+        queryOptions({
+            queryKey: [...getPallet.details(), palletId],
+            queryFn: () => getPalletQuery(palletId),
+        }),
+}
+
+export const useGetPallet = (palletId: number) => {
+    return useQuery(getPallet.detail(palletId));
+}

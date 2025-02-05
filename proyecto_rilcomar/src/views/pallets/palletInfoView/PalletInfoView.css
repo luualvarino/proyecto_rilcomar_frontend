@@ -1,0 +1,77 @@
+#palletInfoView {
+    background-color: #1f425d;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+#pallet_detail_card {
+    width: 40%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    padding: 1.5rem;
+    text-align: center;
+}
+
+#button_div {
+    margin-top: 1rem;
+}
+
+.button_filled, .p-orderlist .p-button {
+    background-color: #4ab9cf;
+    border-color: #4ab9cf;
+    color: white;
+    font-weight: bold;
+}
+
+.button_filled:hover, .p-orderlist .p-button:hover {
+    background-color: #3a98a7;
+    border-color: #3a98a7;
+    cursor: pointer;
+}
+
+.normal_text {
+    font-weight: normal;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+}
+
+.qr-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.qr-code {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #4ab9cf;
+    padding: 5px;
+    background: white;
+    border-radius: 10px;
+}
+
+.button_filled {
+    background-color: #4ab9cf;
+    border-color: #4ab9cf;
+    margin-top: 10px;
+}
+
+.button_filled:hover {
+    background-color: #3a98a7;
+    border-color: #3a98a7;
+    cursor: pointer;
+}
+

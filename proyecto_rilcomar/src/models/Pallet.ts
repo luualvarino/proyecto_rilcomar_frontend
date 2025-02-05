@@ -31,6 +31,8 @@ interface Pallet {
     dimensiones?: string;
     observaciones?: string;
     ubicacion?: string;
+    qrCodeUrl?: string;
+    qrCodeBase64?: string;
     historial?: Pedido[];
 }
 
