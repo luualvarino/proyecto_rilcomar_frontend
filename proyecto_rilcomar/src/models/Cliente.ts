@@ -1,8 +1,12 @@
 interface Cliente {
-    id?: number;
+    id?: number; 
     nombre: string;
     telefono: string;
     mail: string;
 }
 
-export type { Cliente };
+interface ClienteBasico {
+    id: number;
+  }
+
+export type { Cliente, ClienteBasico };

@@ -1,10 +1,21 @@
 #deleteClient_btn {
-    color: #1f425d;
+    color: #ff3d32;
     background-color: white;
     border-color: white;
 }
 
 #deleteClient_btn:hover {
+    background-color: #ff3d32;
+    color: white;
+}
+
+#addUser_btn {
+    color: #1f425d;
+    background-color: white;
+    border-color: white;
+}
+
+#addUser_btn:hover {
     background-color: #1f425d;
     color: white;
 }

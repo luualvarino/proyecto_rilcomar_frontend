@@ -1,14 +1,16 @@
 import { Button } from "primereact/button";
-import React from "react";
+import React, { useRef } from "react";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Toast } from "primereact/toast";
 import TextInput from "../../components/base/form/textInput/TextInput.tsx";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../querys/UsuarioQuerys.ts";
 
 export default function Login() {
     const navigate = useNavigate();
+    const toast = useRef<Toast>(null);
 
     const formValidator = z.object({
         username: z.string().nonempty("Ingrese un usuario válido"),
@@ -21,17 +23,23 @@ export default function Login() {
         resolver: zodResolver(formValidator),
     });
 
-    const { mutate: login } = useLogin({ //No pude hacer que funcione el isLoading da error de compilacion
+    const { mutate: login } = useLogin({ 
         onSuccessFn: (user) => {
+            
+            localStorage.setItem("usuario", JSON.stringify(user));
+            
             if (user.esAdmin) {
+                toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido de nuevo Administrador! ", life: 3000 });
                 navigate("/admin");
             } else {
+                toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido! Ya puedes gestionar tus pallets y pedidos", life: 3000 });
                 navigate("/dashboard");
             }
+            
         },
         onErrorFn: (error) => {
             console.error("Error en el login:", error);
-            alert("Usuario o contraseña incorrectos");
+            toast.current?.show({ severity: "error", summary: "Error", detail: "Usuario o contraseña incorrecta", life: 3000 });
         },
     });
 
@@ -41,6 +49,7 @@ export default function Login() {
 
     return (
         <div className="login-container">
+            <Toast ref={toast} />
             <form
                 className="login-form card flex flex-column align-items-center gap-3"
                 onSubmit={handleSubmit(handleLogin)}

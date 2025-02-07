@@ -28,6 +28,7 @@ export default function ClientesView() {
             </div>
             <ClientesDataview />
             <BaseDialog header="Nuevo Cliente" content={<ClienteForm addedCliente={showNotification} />} visible={visible} setVisible={setVisible}  width="30vw"/>
+            
         </div>
     )
 }
