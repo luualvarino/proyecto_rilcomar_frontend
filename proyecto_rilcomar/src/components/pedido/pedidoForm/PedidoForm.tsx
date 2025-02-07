@@ -10,7 +10,6 @@ import TransferList from "../../base/form/TransferlLst.tsx";
 import { useGetPallets } from "../../../querys/PalletQuerys.ts";
 import "./PedidoForm.css";
 import { Pedido } from "../../../models/Pedido.ts";
-//import { EstadoEnum } from "../../../models/Pedido.ts";
 import { useCreatePedido } from "../../../querys/PedidoQuerys.ts";
 import { formatDate } from "../../../utils/Utils.ts";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -62,6 +61,7 @@ export default function PedidoForm({ createdPedido }) {
             cliente: data.cliente as Cliente,
             fechaEntrega: formatDate(data.fechaEntrega ?? new Date()),
             pallets: data.palletsPedido as Pallet[],
+            estado: "Creado",
         }        
 
         createPedido(obj);

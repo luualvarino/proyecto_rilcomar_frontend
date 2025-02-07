@@ -8,6 +8,7 @@ import Layout from './views/layout/Layout.tsx';
 import PedidoDetailView from './views/pedidos/pedidoDetailView/PedidoDetailView.tsx';
 import ClientesView from './views/clientes/clientesView/ClientesView.tsx';
 import PedidoUpdateView from './views/pedidos/pedidoUpdateView/PedidoUpdateView.tsx';
+import PalletInfoView from './views/pallets/palletInfoView/PalletInfoView.tsx';
 import Login from './views/login/Login.tsx';
 
 
@@ -20,7 +21,7 @@ function App() {
         { path: '/', element: <Login /> },
         { path: '/home', element: <Home /> },
         { path: '/pallets', element: <PalletsView /> },
-        { path: '/pallets/:palletId', element: <PalletsView /> },
+        //{ path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
         { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
         { path: '/pedidosCliente', element: <PedidosClienteView /> },
@@ -28,6 +29,7 @@ function App() {
       ]
     },
     { path: '/pedidos/:pedidoId', element: <PedidoUpdateView /> },
+    { path: '/pallets/:palletId', element: <PalletInfoView /> },
   ])
 
   const queryClient = new QueryClient();

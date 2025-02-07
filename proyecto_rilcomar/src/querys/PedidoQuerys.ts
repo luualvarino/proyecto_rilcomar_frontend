@@ -99,12 +99,18 @@ export const useCreatePedido = ({
 }
 
 async function editPedidoQuery(pedido: Pedido) {
+    //console.log("Pedido a enviar:", pedido);
+    const pedidoCorregido = {
+        ...pedido,
+        estado: pedido.estado.replace(/ /, "_") // Reemplaza espacios por "_"
+    };
+    console.log("Pedido a enviar:", pedidoCorregido);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(pedido),
+        body: JSON.stringify(pedidoCorregido),
     });
 
     if (!response.ok) {
@@ -173,6 +179,8 @@ interface GetPedidosClienteFilters {
 async function getPedidosXClienteQuery(filters: GetPedidosClienteFilters) {
     const queryParams = new URLSearchParams();
 
+    console.log(filters.estado)
+    console.log(filters.clienteId)
     queryParams.append("clienteId", filters.clienteId.toString());
     if (filters.estado) {
         queryParams.append("estado", filters.estado.replace(" ", "_"));
@@ -199,4 +207,9 @@ const getPedidosXCliente = {
 
 export const useGetPedidosXCliente = (filters: GetPedidosClienteFilters) => {
     return useQuery(getPedidosXCliente.list(filters));
+};
+
+
+export const useGetPedidosNoFinalizados = () => {
+    return useQuery(getPedidos.list({ estado: "Finalizado" }));
 };

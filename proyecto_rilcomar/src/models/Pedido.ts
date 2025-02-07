@@ -6,12 +6,13 @@ export enum EstadoEnum {
     Procesando,
     En_Viaje,
     Entregado,
-    Completado
+    Completado,
+    Finalizado
 }
 
 interface Pedido {
     id?: number;
-    estado?: EstadoEnum;
+    estado?: string;
     cliente: Cliente;
     fechaCreacion?: string;
     fechaEntrega: string;

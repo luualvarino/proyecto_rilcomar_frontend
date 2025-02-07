@@ -76,8 +76,14 @@ export const useGetPalletsPorPedido = (pedidoId: number) => {
     return useQuery(getPalletsPorPedido.list(pedidoId));
 }
 
-async function addPalletQuery(pallet: Pallet) {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets`, {
+async function addPalletQuery(pallet: Pallet, cantidad: number) {
+    console.log("Enviando -> PALLET:", JSON.stringify(pallet), "CANTIDAD:", cantidad);
+
+    if (!pallet || !cantidad) {
+        throw new Error("Pallet o cantidad están undefined");
+    }
+
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets?cantidad=${cantidad}`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -98,13 +104,14 @@ export const useAddPallet = ({
 }) => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: (pallet: Pallet) => addPalletQuery(pallet),
+        mutationFn: ({ pallet, cantidad }: { pallet: Pallet, cantidad: number }) => addPalletQuery(pallet, cantidad),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["pallets"] });
             onSuccessFn(data);
         },
-        onError: (data) => {
-            onErrorFn(data);
+        onError: (error) => {
+            console.error("Error al agregar pallet:", error);
+            onErrorFn(error);
         }
     })
 }
@@ -157,3 +164,35 @@ export const useGetPalletsCount = () => {
         queryFn: getPalletsCountQuery,
     });
 };
+
+
+async function getPalletQuery(palletId: number) {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pallets/${palletId}`);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener el pallet");
+    }
+    const data = await response.json();
+
+    console.log("QRCode Pallet", data.qrCode);
+
+    if (data.qrCode) {
+        data.qrCode = `data:image/png;base64,${data.qrCode}`;
+    }
+
+    return data;
+}
+
+const getPallet = {
+    key: () => ["pallets"],
+    details: () => [...getPallet.key(), "details"] as const,
+    detail: (palletId: number) =>
+        queryOptions({
+            queryKey: [...getPallet.details(), palletId],
+            queryFn: () => getPalletQuery(palletId),
+        }),
+}
+
+export const useGetPallet = (palletId: number) => {
+    return useQuery(getPallet.detail(palletId));
+}
