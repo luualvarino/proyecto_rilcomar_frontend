@@ -41,8 +41,6 @@ export default function CustomDemo() {
         </React.Fragment>
     );
 
-    
-    let items: { id?: string; label: string; icon: string; command: () => void }[] = [];
 
     if (usuario) {
         const esAdmin = usuario.esAdmin;

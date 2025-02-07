@@ -60,7 +60,8 @@ export default function PedidoForm({ createdPedido }) {
         const obj: Pedido = {
             cliente: data.cliente as Cliente,
             fechaEntrega: formatDate(data.fechaEntrega ?? new Date()),
-            pallets: data.palletsPedido as Pallet[]
+            pallets: data.palletsPedido as Pallet[],
+            estado: "Creado",
         }        
 
         createPedido(obj);
