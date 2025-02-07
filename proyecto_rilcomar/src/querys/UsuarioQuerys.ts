@@ -132,11 +132,9 @@ async function addUsuarioQuery(data: UsuarioData): Promise<Usuario> {
 export const useDeleteUsuario = ({
     onSuccessFn,
     onErrorFn,
-    refetchUsuarios,
 }: {
     onSuccessFn: () => void;
     onErrorFn: (error: any) => void;
-    refetchUsuarios: () => void;
 }) => {
     const queryClient = useQueryClient();
 
@@ -144,7 +142,6 @@ export const useDeleteUsuario = ({
         mutationFn: deleteUsuarioQuery,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["usuarios"] }); 
-            refetchUsuarios();
             onSuccessFn();
         },
         onError: (error) => {

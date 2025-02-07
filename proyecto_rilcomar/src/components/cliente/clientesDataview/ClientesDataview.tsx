@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Toast } from "primereact/toast";
-import { useGetClientes } from "../../../querys/ClienteQuerys.ts";
+import { useGetClientes, useDeleteCliente } from "../../../querys/ClienteQuerys.ts";
 import { useGetUsuariosPorCliente, useDeleteUsuario } from "../../../querys/UsuarioQuerys.ts";
 import { Cliente } from "../../../models/Cliente.ts";
 import Dataview from "../../base/dataview/Dataview.tsx";
@@ -24,12 +24,13 @@ export default function ClientesDataview() {
     const { mutate: deleteUsuario } = useDeleteUsuario({ 
         onSuccessFn: () => {
             toast.current?.show({ severity: "success", summary: "Éxito", detail: "Usuario eliminado correctamente", life: 3000 });
-            
+            setTimeout(() => {
+                refetch();
+            }, 500);
        },
         onErrorFn: () => {
             toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo eliminar el usuario", life: 3000 });
         },
-        refetchUsuarios: refetch,
     });
 
     const handleEliminarUsuario = (username: string) => {
@@ -51,9 +52,19 @@ export default function ClientesDataview() {
             message: `¿Está seguro que desea eliminar este cliente?`,
             header: "Confirmación",
             icon: "pi pi-exclamation-triangle",
-            accept: () => console.log("Eliminar cliente con ID:", id),
+            accept: () => deleteCliente(id),
         });
     };
+
+    const { mutate: deleteCliente } = useDeleteCliente({ 
+        onSuccessFn: () => {
+            toast.current?.show({ severity: "success", summary: "Éxito", detail: "Cliente eliminado correctamente", life: 3000 });
+            
+       },
+        onErrorFn: () => {
+            toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo eliminar el cliente", life: 3000 });
+        },
+    });
 
     return (
         <div>
@@ -117,7 +128,7 @@ export default function ClientesDataview() {
                 header={`Agregar Usuario a ${selectedCliente?.nombre || ""}`}
                 visible={visibleUserForm}
                 setVisible={setVisibleUserForm}
-                width="40vw"
+                width="30vw"
                 content={<UserForm clienteSeleccionado={selectedCliente} />}
             />
 
@@ -125,7 +136,7 @@ export default function ClientesDataview() {
                 header={`Usuarios de ${selectedCliente?.nombre || ""}`}
                 visible={visibleGestionarUsuarios}
                 setVisible={setVisibleGestionarUsuarios}
-                width="40vw"
+                width="30vw"
                 content={
                     <UserList
                         usuarios={usuarios || []}

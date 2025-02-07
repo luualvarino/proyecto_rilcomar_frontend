@@ -26,18 +26,16 @@ export default function Login() {
     const { mutate: login } = useLogin({ 
         onSuccessFn: (user) => {
             
+            localStorage.setItem("usuario", JSON.stringify(user));
             
             if (user.esAdmin) {
                 toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido de nuevo Administrador! ", life: 3000 });
-                localStorage.setItem("user",user.username)
-                localStorage.setItem("esAdmin", "true")
                 navigate("/admin");
             } else {
                 toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido! Ya puedes gestionar tus pallets y pedidos", life: 3000 });
-                localStorage.setItem("user",user.username)
-                localStorage.setItem("clienteId",user.cliente?.id?.toString() || "") 
                 navigate("/dashboard");
             }
+            
         },
         onErrorFn: (error) => {
             console.error("Error en el login:", error);
