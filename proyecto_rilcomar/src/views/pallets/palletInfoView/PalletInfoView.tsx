@@ -49,10 +49,21 @@ export default function PalletInfoView(){
                         <h3>Tipo: <span className="normal_text">{pallet.tipo}</span></h3>
                         <h3>Formato: <span className="normal_text">{pallet.formato || 'N/A'}</span></h3>
                         <h3>Peso: <span className="normal_text">{pallet.peso}</span></h3>
-                        <h3>Dimensiones: <span className="normal_text">{pallet.dimensiones || 'N/A'}</span></h3>
                         <h3>Ubicación: <span className="normal_text">{pallet.ubicacion || 'N/A'}</span></h3>
                         <h3>Observaciones: <span className="normal_text">{pallet.observaciones || 'N/A'}</span></h3>
                         
+                        {/* Mostrar botón para ir a la vista del pedido si el pallet está ocupado */}
+                        {pallet.estado === "Ocupado" && (
+                            <div className="mt-3">
+                                <Button 
+                                    label="Ver Pedido"
+                                    icon="pi pi-eye"
+                                    className="button_filled"
+                                    onClick={() => navigate(`/pedidos/${pallet.historial[0].id}`)}
+                                />
+                            </div>
+                        )}
+
                         {/* Mostrar el código QR si está disponible */}
                         {pallet.qrCode && (
                             <div className="qr-code-container">
@@ -67,17 +78,7 @@ export default function PalletInfoView(){
                             </div>
                         )}
 
-                        {/* Mostrar botón para ir a la vista del pedido si el pallet está ocupado */}
-                        {pallet.estado === "Ocupado" && (
-                            <div className="mt-3">
-                                <Button 
-                                    label="Ver Pedido"
-                                    icon="pi pi-eye"
-                                    className="button_filled"
-                                    onClick={() => navigate(`/pedidos/${pallet.historial[0].id}`)}
-                                />
-                            </div>
-                        )}
+
                     </div>
 
                     <div id="button_div" className="flex flex-column align-items-center">

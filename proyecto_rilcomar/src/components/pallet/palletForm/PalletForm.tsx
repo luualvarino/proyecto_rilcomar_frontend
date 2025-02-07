@@ -22,6 +22,7 @@ export default function PalletForm({ addedPallet }) {
         formato: z.string().min(1, "El formato es obligatorio."),
         observaciones: z.string().max(255, "Las observaciones no pueden exceder los 255 caracteres."),
         cantidad: z.number().min(1, "La cantidad debe ser mayor a 0."),
+        ubicacion: z.string().max(255, "La ubicacion no pueden exceder los 255 caracteres."),
     });
 
     type FormValidationSchema = z.infer<typeof formValidator>;
@@ -33,6 +34,7 @@ export default function PalletForm({ addedPallet }) {
             formato: "",
             observaciones: "",
             cantidad: 1,
+            ubicacion: "",
         },
         resolver: zodResolver(formValidator),
     });
@@ -50,6 +52,7 @@ export default function PalletForm({ addedPallet }) {
             tipo: data.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             peso: data.peso,
             formato: data.formato,
+            ubicacion: data.ubicacion,
             observaciones: data.observaciones,
         }
         const cantidad = data.cantidad;
@@ -111,22 +114,39 @@ export default function PalletForm({ addedPallet }) {
                     />
                 )}
             />
-            <Controller
-                name="cantidad"
-                control={control}
-                render={({ field }) => (
-                    <TextInput
-                        id="cantidad_input"
-                        placeholder="Cantidad"
-                        isNumber={true}
-                        addedClass="md:w-24rem"
-                        value={field.value}
-                        setValue={field.onChange}
-                        invalid={!!errors.cantidad}
-                        helperText={errors.cantidad?.message}
-                    />
-                )}
-            />
+             <div id="form_row" className="flex">
+                <Controller
+                    name="cantidad"
+                    control={control}
+                    render={({ field }) => (
+                        <TextInput
+                            id="cantidad_input"
+                            placeholder="Cantidad"
+                            isNumber={true}
+                            addedClass="md:w-10rem"
+                            value={field.value}
+                            setValue={field.onChange}
+                            invalid={!!errors.cantidad}
+                            helperText={errors.cantidad?.message}
+                        />
+                    )}
+                />
+                <Controller
+                    name="ubicacion"
+                    control={control}
+                    render={({ field }) => (
+                        <TextInput
+                            id="ubicacion_input"
+                            placeholder="Ubicación"
+                            addedClass="md:w-10rem"
+                            value={field.value}
+                            setValue={field.onChange}
+                            invalid={!!errors.ubicacion}
+                            helperText={errors.ubicacion?.message}
+                        />
+                    )}
+                />
+            </div>
             <Controller
                 name="observaciones"
                 control={control}

@@ -66,20 +66,20 @@ export default function PedidoUpdateView() {
                         </h3>
                     </div>
                     <PedidoList pedido={pedido} />
-                    <div className="flex flex-column align-items-center">
+                    <div className="select-container">
+                        <label htmlFor="tipo_input">Estado</label>
                         <Select
                             id="tipo_input"
-                            placeholder="Estado"
+                            placeholder="Seleccione un estado"
                             options={estados}
                             addedClass="md:w-16rem"
                             selectedValue={estado}
                             setSelectedValue={(value) => setEstado(value as string)}
                         />
                     </div>
-                    <div id="button_div" className="flex flex-column align-items-center">
+                    <div className="button-container">
                         <Button id="button_update" className="button_filled" label="Actualizar" icon="pi pi-check" autoFocus type="button" onClick={handleEditarPedido} />
-                    </div>
-                    <div id="button_div" className="flex flex-column align-items-center">
+
                         <Button label="Volver" icon="pi pi-arrow-left" className="button_filled" onClick={() => window.history.back()} />
                     </div>
                 </Card>
