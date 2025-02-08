@@ -21,8 +21,6 @@ export default function PedidosTable() {
     const navigate = useNavigate();
 
     function showNotification(data) {
-        console.log(data);
-
         if (data) {
             toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pedido eliminado exitosamente', life: 3000 });
         } else {

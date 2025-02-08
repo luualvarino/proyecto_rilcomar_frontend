@@ -1,21 +1,34 @@
-#deleteClient_btn {
-    color: #ff3d32;
-    background-color: white;
-    border-color: white;
+.p-menu .p-menuitem-link {
+    color: #333 !important;
+    background: white !important;
+    display: flex;
+    align-items: center;
 }
 
-#deleteClient_btn:hover {
-    background-color: #ff3d32;
-    color: white;
+.p-menu .p-menuitem {
+    background: white !important;
+    padding: 10px 15px !important;
 }
 
-#addUser_btn {
-    color: #1f425d;
-    background-color: white;
-    border-color: white;
+.p-menu .p-menuitem:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
 }
 
-#addUser_btn:hover {
-    background-color: #1f425d;
-    color: white;
+.p-menu .p-menuitem-link .p-menuitem-icon {
+    color: #333 !important; 
+    margin-right: 10px !important;
+}
+
+.p-tieredmenu-overlay .p-menuitem-text {
+    color: #333 !important;
+}
+
+.p-splitbutton-defaultbutton {
+    background-color: #4ab9cf;
+    border-color: #4ab9cf;
+}
+
+.p-splitbutton-menubutton {
+    background-color: #4ab9cf;
+    border-color: #4ab9cf;
 }
