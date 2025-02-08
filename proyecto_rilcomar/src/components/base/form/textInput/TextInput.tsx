@@ -17,6 +17,7 @@ interface TextInputProps {
     setValue: (value: string | number) => void;
     invalid?: boolean;
     helperText?: string;
+    type?: string;
 }
 
 export default function TextInput(
@@ -31,7 +32,8 @@ export default function TextInput(
         value,
         setValue,
         invalid,
-        helperText
+        helperText,
+        type
     }: TextInputProps) {
 
     return (
@@ -58,6 +60,7 @@ export default function TextInput(
                             value={value as string}
                             onChange={(e) => setValue(e.target.value)}
                             invalid={invalid}
+                            type={type}
                         />
                     )}
                     {suffix && <span className="p-inputgroup-addon">{suffix}</span>}

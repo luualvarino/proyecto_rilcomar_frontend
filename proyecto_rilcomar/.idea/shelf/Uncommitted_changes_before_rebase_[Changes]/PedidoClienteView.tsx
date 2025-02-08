@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import "../../pallets/palletsView/PalletsView.css";
+import React, { useRef, useState } from "react";
+import "../../admin/pallets/palletsView/PalletsView.css";
 import PedidoClienteTable from "../../../components/pedido/historialClientePedido/PedidoClienteTable.tsx";
 import { Toast } from "primereact/toast";
 

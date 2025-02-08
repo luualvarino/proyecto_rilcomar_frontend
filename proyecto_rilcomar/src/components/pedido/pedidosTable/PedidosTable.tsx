@@ -42,6 +42,7 @@ export default function PedidosTable() {
         { field: 'cliente', header: 'Cliente', body: (rowData: Pedido) => { return <span>{rowData.cliente.nombre}</span> } },
         { field: 'fechaCreacion', header: 'Fecha Creación' },
         { field: 'fechaEntrega', header: 'Fecha Entrega' },
+        { field: 'ultimaActualizacion', header: 'Última Modificación' },
         { field: 'ubicacion', header: 'Ubicación' }
     ];
 
