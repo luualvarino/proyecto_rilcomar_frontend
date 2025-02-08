@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import ClientesDataview from "../../../components/cliente/clientesDataview/ClientesDataview.tsx";
+import ClientesDataview from "../../../../components/cliente/clientesDataview/ClientesDataview.tsx";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import ClienteForm from "../../../components/cliente/clienteForm/ClienteForm.tsx";
-import BaseDialog from "../../../components/base/dialog/BaseDialog.tsx";
+import ClienteForm from "../../../../components/cliente/clienteForm/ClienteForm.tsx";
+import BaseDialog from "../../../../components/base/dialog/BaseDialog.tsx";
 
 export default function ClientesView() {
     const [visible, setVisible] = useState<boolean>(false);
@@ -28,7 +28,6 @@ export default function ClientesView() {
             </div>
             <ClientesDataview />
             <BaseDialog header="Nuevo Cliente" content={<ClienteForm addedCliente={showNotification} />} visible={visible} setVisible={setVisible}  width="30vw"/>
-            
         </div>
     )
 }

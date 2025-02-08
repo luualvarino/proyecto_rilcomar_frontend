@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PalletDetailView({ pallet }) {
+export default function PedidoDetailView({ pedido }) {
     return (
         <div>
             

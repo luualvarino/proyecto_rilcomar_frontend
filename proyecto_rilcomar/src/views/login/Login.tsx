@@ -30,10 +30,10 @@ export default function Login() {
             
             if (user.esAdmin) {
                 toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido de nuevo Administrador! ", life: 3000 });
-                navigate("/admin");
+                navigate("/admin/home");
             } else {
                 toast.current?.show({ severity: "success", summary: "Éxito", detail: "Bienvenido! Ya puedes gestionar tus pallets y pedidos", life: 3000 });
-                navigate("/dashboard");
+                navigate("/client/home");
             }
             
         },
@@ -84,6 +84,7 @@ export default function Login() {
                                 setValue={field.onChange}
                                 invalid={!!errors.password}
                                 helperText={errors.password?.message}
+                                type="password"
                             />
                         )}
                     />
