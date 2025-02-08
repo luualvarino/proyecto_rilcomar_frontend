@@ -15,7 +15,7 @@ const DashboardAdmin = () => {
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const toast = useRef<Toast>(null);
     const [estado] = useState("Finalizado"); 
-    const { data: pedidoData } = useGetPedidosNoFinalizados({ estado });
+    const { data: pedidoData } = useGetPedidosNoFinalizados();
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
@@ -51,8 +51,6 @@ const DashboardAdmin = () => {
                     </div>
                 )}
             </div>
-
-            {/* ------------------------------ */}
 
             <div>
             <h1 id="pedidos_title">Pedidos</h1>

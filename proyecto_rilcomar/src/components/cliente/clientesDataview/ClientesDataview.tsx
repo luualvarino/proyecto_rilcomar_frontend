@@ -27,13 +27,13 @@ export default function ClientesDataview() {
 
     const { data: usuarios, refetch } = useGetUsuariosPorCliente(selectedCliente?.id || 0);
 
-    const { mutate: deleteUsuario } = useDeleteUsuario({ 
+    const { mutate: deleteUsuario } = useDeleteUsuario({
         onSuccessFn: () => {
             toast.current?.show({ severity: "success", summary: "Éxito", detail: "Usuario eliminado correctamente", life: 3000 });
             setTimeout(() => {
                 refetch();
             }, 500);
-       },
+        },
         onErrorFn: () => {
             toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo eliminar el usuario", life: 3000 });
         },
@@ -67,20 +67,29 @@ export default function ClientesDataview() {
         });
     };
 
-    const { mutate: deleteCliente } = useDeleteCliente({ 
+    const { mutate: deleteCliente } = useDeleteCliente({
         onSuccessFn: () => {
             toast.current?.show({ severity: "success", summary: "Éxito", detail: "Cliente eliminado correctamente", life: 3000 });
-            
-       },
+
+        },
         onErrorFn: () => {
             toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo eliminar el cliente", life: 3000 });
         },
     });
 
+    function onEditSuccess(data) {
+        setVisibleClienteEditForm(false);
+        if (data) {
+            toast.current?.show({ severity: "success", summary: "Éxito", detail: "Cliente editado correctamente", life: 3000 });
+        } else {
+            toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo editar el cliente", life: 3000 });
+        }
+    }
+
     return (
         <div>
             <Toast ref={toast} />
-            <ConfirmDialog/>
+            <ConfirmDialog />
             <Dataview
                 data={data}
                 itemTemplate={(item) => {
@@ -123,7 +132,7 @@ export default function ClientesDataview() {
                                                     command: () => handleEditarCliente(cliente),
                                                 }
                                             ]}
-                                            className="p-button-rounded"
+                                            className="p-button-rounded split-button"
                                         />
                                         <Button
                                             label="Eliminar"
@@ -153,7 +162,7 @@ export default function ClientesDataview() {
                 visible={visibleClienteEditForm}
                 setVisible={setVisibleClienteEditForm}
                 width="30vw"
-                content={<ClienteEditForm clienteToEdit={selectedCliente} onEditSuccess={() => setVisibleClienteEditForm(false)} />}
+                content={<ClienteEditForm clienteToEdit={selectedCliente} onEditSuccess={onEditSuccess} />}
             />
 
             <BaseDialog
