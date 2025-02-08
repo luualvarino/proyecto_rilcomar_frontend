@@ -1,21 +1,33 @@
-#deleteClient_btn {
-    color: #ff3d32;
-    background-color: white;
-    border-color: white;
+/* Asegura que el fondo del menú del SplitButton sea visible */
+.p-splitbutton .p-menu {
+    background: white !important;
+    border: 1px solid #dcdcdc !important;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15) !important;
 }
 
-#deleteClient_btn:hover {
-    background-color: #ff3d32;
-    color: white;
+/* Estilos de los ítems del menú para que sean visibles */
+.p-menuitem {
+    padding: 10px 15px !important;
 }
 
-#addUser_btn {
-    color: #1f425d;
-    background-color: white;
-    border-color: white;
+/* Color del texto de los ítems del menú */
+.p-menuitem-link {
+    color: #333 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    display: flex;
+    align-items: center;
 }
 
-#addUser_btn:hover {
-    background-color: #1f425d;
-    color: white;
+/* Efecto hover más claro para mayor visibilidad */
+.p-menuitem-link:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: black !important;
+    transition: background 0.2s ease-in-out;
+}
+
+/* Asegura que los íconos en el SplitButton sean visibles */
+.p-menuitem-icon {
+    margin-right: 10px !important;
+    font-size: 1rem !important;
 }

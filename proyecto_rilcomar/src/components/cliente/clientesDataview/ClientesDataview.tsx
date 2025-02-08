@@ -2,22 +2,28 @@ import React, { useState, useRef } from "react";
 import { Toast } from "primereact/toast";
 import { useGetClientes, useDeleteCliente } from "../../../querys/ClienteQuerys.ts";
 import { useGetUsuariosPorCliente, useDeleteUsuario } from "../../../querys/UsuarioQuerys.ts";
+import "./ClientesDataview.css"
 import { Cliente } from "../../../models/Cliente.ts";
 import Dataview from "../../base/dataview/Dataview.tsx";
 import BaseDialog from "../../base/dialog/BaseDialog.tsx";
 import UserForm from "../../usuario/UsuarioForm.tsx"
 import UserList from "../../usuario/UsuarioList.tsx"
+import ClienteEditForm from "../clienteForm/ClienteEditForm.tsx"
 import { Button } from "primereact/button";
 import { SplitButton } from "primereact/splitbutton";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { classNames } from "primereact/utils";
 
+
+
 export default function ClientesDataview() {
     const { data } = useGetClientes({});
     const [visibleUserForm, setVisibleUserForm] = useState<boolean>(false);
+    const [visibleClienteEditForm, setVisibleClienteEditForm] = useState<boolean>(false);
     const [visibleGestionarUsuarios, setVisibleGestionarUsuarios] = useState<boolean>(false);
     const [selectedCliente, setSelectedCliente] = useState<Cliente | null>(null);
     const toast = useRef<Toast>(null);
+
 
     const { data: usuarios, refetch } = useGetUsuariosPorCliente(selectedCliente?.id || 0);
 
@@ -45,6 +51,11 @@ export default function ClientesDataview() {
     const handleGestionarUsuarios = (cliente: Cliente) => {
         setSelectedCliente(cliente);
         setVisibleGestionarUsuarios(true);
+    };
+
+    const handleEditarCliente = (cliente: Cliente) => {
+        setSelectedCliente(cliente);
+        setVisibleClienteEditForm(true);
     };
 
     const handleEliminarCliente = (id: number) => {
@@ -105,6 +116,11 @@ export default function ClientesDataview() {
                                                     label: "Gestionar Usuarios",
                                                     icon: "pi pi-users",
                                                     command: () => handleGestionarUsuarios(cliente),
+                                                },
+                                                {
+                                                    label: "Editar Cliente",
+                                                    icon: "pi pi-user-edit",
+                                                    command: () => handleEditarCliente(cliente),
                                                 }
                                             ]}
                                             className="p-button-rounded"
@@ -130,6 +146,14 @@ export default function ClientesDataview() {
                 setVisible={setVisibleUserForm}
                 width="30vw"
                 content={<UserForm clienteSeleccionado={selectedCliente} />}
+            />
+
+            <BaseDialog
+                header={`Editar Cliente ${selectedCliente?.nombre || ""}`}
+                visible={visibleClienteEditForm}
+                setVisible={setVisibleClienteEditForm}
+                width="30vw"
+                content={<ClienteEditForm clienteToEdit={selectedCliente} onEditSuccess={() => setVisibleClienteEditForm(false)} />}
             />
 
             <BaseDialog
