@@ -1,0 +1,22 @@
+/* Contenedor principal */
+#home_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f7fa;
+}
+
+/* Contenido centrado */
+#home_content {
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Título */
+#home_title {
+    margin-top: 10rem;
+    padding: 1rem;
+    border: 5px solid #1f425d;
+    border-radius: 1rem;
+}

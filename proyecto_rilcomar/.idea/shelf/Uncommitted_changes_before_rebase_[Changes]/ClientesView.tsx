@@ -1,12 +1,11 @@
 import React, { useRef, useState } from "react";
-import "../../pallets/palletsView/PalletsView.css";
-import PedidosTable from "../../../components/pedido/pedidosTable/PedidosTable.tsx";
+import ClientesDataview from "../../../../components/cliente/clientesDataview/ClientesDataview.tsx";
 import { Button } from "primereact/button";
-import PedidoForm from "../../../components/pedido/pedidoForm/PedidoForm.tsx";
-import BaseDialog from "../../../components/base/dialog/BaseDialog.tsx";
 import { Toast } from "primereact/toast";
+import ClienteForm from "../../../../components/cliente/clienteForm/ClienteForm.tsx";
+import BaseDialog from "../../../../components/base/dialog/BaseDialog.tsx";
 
-export default function PedidosView() {
+export default function ClientesView() {
     const [visible, setVisible] = useState<boolean>(false);
 
     const toast = useRef<Toast>(null);
@@ -24,11 +23,11 @@ export default function PedidosView() {
         <div>
             <Toast ref={toast} />
             <div id="table_header_div" className="card flex" style={{ justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <h1 id="pallets_title">Pedidos</h1>
-                <Button id="add_pallet_btn" label="Crear Pedido" icon="pi pi-plus" onClick={() => setVisible(true)} />
+                <h1 id="pallets_title">Clientes</h1>
+                <Button id="add_pallet_btn" className="button_filled" label="Agregar Cliente" icon="pi pi-plus" onClick={() => setVisible(true)} />
             </div>
-            <PedidosTable />
-            <BaseDialog header="Nuevo Pallet" content={<PedidoForm createdPedido={showNotification}/>} visible={visible} setVisible={setVisible} width="60vw" />
+            <ClientesDataview />
+            <BaseDialog header="Nuevo Cliente" content={<ClienteForm addedCliente={showNotification} />} visible={visible} setVisible={setVisible}  width="30vw"/>
         </div>
     )
 }

@@ -21,8 +21,6 @@ export default function PedidosTable() {
     const navigate = useNavigate();
 
     function showNotification(data) {
-        console.log(data);
-
         if (data) {
             toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pedido eliminado exitosamente', life: 3000 });
         } else {
@@ -42,6 +40,7 @@ export default function PedidosTable() {
         { field: 'cliente', header: 'Cliente', body: (rowData: Pedido) => { return <span>{rowData.cliente.nombre}</span> } },
         { field: 'fechaCreacion', header: 'Fecha Creación' },
         { field: 'fechaEntrega', header: 'Fecha Entrega' },
+        { field: 'ultimaActualizacion', header: 'Última Modificación' },
         { field: 'ubicacion', header: 'Ubicación' }
     ];
 

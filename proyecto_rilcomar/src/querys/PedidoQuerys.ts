@@ -99,12 +99,17 @@ export const useCreatePedido = ({
 }
 
 async function editPedidoQuery(pedido: Pedido) {
+            const pedidoCorregido = {
+        ...pedido,
+        estado: pedido.estado?.replace(/ /, "_")
+    };
+    console.log("Pedido a enviar:", pedidoCorregido);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(pedido),
+        body: JSON.stringify(pedidoCorregido),
     });
 
     if (!response.ok) {
@@ -164,3 +169,46 @@ export const useDeletePedido = ({
         }
     })
 }
+
+interface GetPedidosClienteFilters {
+    clienteId: number; 
+    estado?: string;
+}
+
+async function getPedidosXClienteQuery(filters: GetPedidosClienteFilters) {
+    const queryParams = new URLSearchParams();
+
+    console.log(filters.estado)
+    console.log(filters.clienteId)
+    queryParams.append("clienteId", filters.clienteId.toString());
+    if (filters.estado) {
+        queryParams.append("estado", filters.estado.replace(" ", "_"));
+    }
+
+    const url = `${process.env.REACT_APP_BACKEND_API_URL}pedidos/cliente?${queryParams.toString()}`;
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener los pedidos");
+    }
+    return await response.json();
+}
+
+const getPedidosXCliente = {
+    key: () => ["pedidos/cliente"],
+    list: (filters: GetPedidosClienteFilters) =>
+        queryOptions({
+            queryKey: [...getPedidosXCliente.key(), { ...filters }],
+            queryFn: () => getPedidosXClienteQuery(filters),
+        }),
+};
+
+export const useGetPedidosXCliente = (filters: GetPedidosClienteFilters) => {
+    return useQuery(getPedidosXCliente.list(filters));
+};
+
+
+export const useGetPedidosNoFinalizados = () => {
+    return useQuery(getPedidos.list({ estado: "Finalizado" }));
+};
