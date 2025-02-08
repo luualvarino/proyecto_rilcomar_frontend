@@ -107,3 +107,36 @@ export const useDeleteCliente = ({
         }
     })
 }
+
+async function editClienteQuery(cliente: Cliente) {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}clientes/${cliente.id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cliente),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al editar el cliente");
+    }
+    const data = await response.json();
+    return data;
+}
+
+export const useEditCliente = ({
+    onSuccessFn,
+    onErrorFn
+}) => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (cliente: Cliente) => editClienteQuery(cliente),
+        onSuccess: async (data) => {
+            await queryClient.invalidateQueries({ queryKey: ["clientes"] });
+            onSuccessFn(data);
+        },
+        onError: (data) => {
+            onErrorFn(data);
+        }
+    })
+}
