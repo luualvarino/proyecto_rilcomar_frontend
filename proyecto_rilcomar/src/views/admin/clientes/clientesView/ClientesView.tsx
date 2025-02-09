@@ -13,9 +13,9 @@ export default function ClientesView() {
     function showNotification(data) {
         setVisible(false);
         if (data) {
-            toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pallet agregado exitosamente', life: 3000 });
+            toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Cliente agregado exitosamente', life: 3000 });
         } else {
-            toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Pallet no pudo ser agregado', life: 3000 });
+            toast.current?.show({ severity: 'error', summary: 'Error', detail: 'El Cliente no pudo ser agregado', life: 3000 });
         }
     };
 

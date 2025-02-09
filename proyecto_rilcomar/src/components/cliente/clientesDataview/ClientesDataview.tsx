@@ -86,6 +86,15 @@ export default function ClientesDataview() {
         }
     }
 
+    function onAddSuccess(data) {
+        setVisibleUserForm(false);
+        if (data) {
+            toast.current?.show({ severity: "success", summary: "Éxito", detail: "Usuario agregado correctamente", life: 3000 });
+        } else {
+            toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo agregar el usuario", life: 3000 });
+        }
+    }
+
     return (
         <div>
             <Toast ref={toast} />
@@ -154,7 +163,7 @@ export default function ClientesDataview() {
                 visible={visibleUserForm}
                 setVisible={setVisibleUserForm}
                 width="30vw"
-                content={<UserForm clienteSeleccionado={selectedCliente} />}
+                content={<UserForm clienteSeleccionado={selectedCliente} onAddSuccess={onAddSuccess}/>}
             />
 
             <BaseDialog

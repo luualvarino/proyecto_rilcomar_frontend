@@ -12,18 +12,24 @@ import PalletInfoView from './views/pallets/palletInfoView/PalletInfoView.tsx';
 import Login from './views/login/Login.tsx';
 import AdminHome from './views/admin/home/Home.tsx';
 import ClientHome from './views/cliente/home/Home.tsx';
+import LayoutLogin from './views/login/layout/Layout.tsx';
 
 
 function App() {
   const router = createBrowserRouter([
-    { path: '/', element: <Login /> },
+    {
+      path: '/',
+      element: <LayoutLogin />,
+      children: [
+        { path: '/', element: <Login /> }
+      ]
+    },
     {
       path: '/',
       element: <LayoutAdmin />,
       children: [
         { path: '/admin/home', element: <AdminHome /> },
         { path: '/pallets', element: <PalletsView /> },
-        //{ path: '/pallets/:palletId', element: <PalletsView /> },
         { path: '/pedidos', element: <PedidosView /> },
         { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
         { path: '/clientes', element: <ClientesView /> },
