@@ -77,8 +77,6 @@ export const useGetPalletsPorPedido = (pedidoId: number) => {
 }
 
 async function addPalletQuery(pallet: Pallet, cantidad: number) {
-    console.log("Enviando -> PALLET:", JSON.stringify(pallet), "CANTIDAD:", cantidad);
-
     if (!pallet || !cantidad) {
         throw new Error("Pallet o cantidad están undefined");
     }

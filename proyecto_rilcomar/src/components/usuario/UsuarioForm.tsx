@@ -1,25 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useRef } from "react";
+import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import TextInput from "../base/form/textInput/TextInput.tsx";
 import { Button } from "primereact/button";
-import { Toast } from "primereact/toast";
 import { UsuarioData } from "../../models/Usuario.ts";
 import { useAddUsuario } from "../../querys/UsuarioQuerys.ts";
 
 
 
-export default function UserForm({ clienteSeleccionado }) {
-
-    const toast = useRef<Toast>(null);
+export default function UserForm({ clienteSeleccionado, onAddSuccess }) {
 
     const { mutate: addUsuario } = useAddUsuario({
-        onSuccessFn: () => {
-            toast.current?.show({ severity: "success", summary: "Éxito", detail: "Usuario agregado correctamente", life: 3000 });
+        onSuccessFn: (data) => {
+            onAddSuccess(data);
         },
         onErrorFn: () => {
-            toast.current?.show({ severity: "error", summary: "Error", detail: "No se pudo agregar el usuario", life: 3000 });
+            onAddSuccess(null);
         },
     })
 
@@ -46,7 +43,6 @@ export default function UserForm({ clienteSeleccionado }) {
     return (
         
         <div>
-        <Toast ref={toast} />
         <form id="form_div" className="card flex flex-column gap-3 align-items-center" onSubmit={handleSubmit(handleAddUsuario)}>
             <Controller
                 name="username"

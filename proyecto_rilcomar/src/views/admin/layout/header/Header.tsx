@@ -68,7 +68,7 @@ export default function CustomDemo() {
         <React.Fragment>
             <div className="flex align-items-center gap-2 user-menu" onClick={toggleMenu}>
                 <Avatar icon="pi pi-user" size="large" shape="circle" />
-                <span className="text-bluegray-50">{user?.cliente.nombre}</span>
+                <span className="text-bluegray-50">{user?.username}</span>
             </div>
             <Menu model={menuItems} popup ref={menuRef} />
         </React.Fragment>
