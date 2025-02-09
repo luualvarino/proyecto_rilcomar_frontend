@@ -5,7 +5,6 @@ import { Button } from 'primereact/button';
 import { Toast } from "primereact/toast";
 import { useGetPedidosXCliente } from "../../../querys/PedidoQuerys.ts";
 import { Pedido } from "../../../models/Pedido.ts";
-import { Usuario } from "../../../models/Usuario";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
 
