@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import { Toast } from "primereact/toast";
 import { useGetPedidosXCliente } from "../../../querys/PedidoQuerys.ts";
 import { Pedido } from "../../../models/Pedido.ts";
+import { Usuario } from "../../../models/Usuario";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +15,9 @@ export default function PedidosClienteTable() {
 
     const toast = useRef<Toast>(null);
 
-    const clienteId = 52;
+    const usuarioLogueado = localStorage.getItem("usuario");
+    const usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
+    const clienteId = usuario.cliente.id;
     const estado = "Finalizado";
 
     const { data } = useGetPedidosXCliente({

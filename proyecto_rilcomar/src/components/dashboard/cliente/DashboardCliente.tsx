@@ -15,7 +15,9 @@ const DashboardCliente = () => {
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const toast = useRef<Toast>(null);
 
-    const clienteId = 1;
+    const usuarioLogueado = localStorage.getItem("usuario");
+    const usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
+    const clienteId = usuario.cliente.id;
 
     const { data } = useGetPedidosXCliente({
         clienteId,
