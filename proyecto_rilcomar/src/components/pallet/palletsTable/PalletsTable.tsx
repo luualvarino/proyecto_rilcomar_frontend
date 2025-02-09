@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import BaseDialog from "../../base/dialog/BaseDialog.tsx";
 import DeletePallet from "../deletePallet/DeletePallet.tsx";
 import { Toast } from "primereact/toast";
-import { useGetPallets, useGetPalletsPorPedido } from "../../../querys/PalletQuerys.ts";
+import { useGetPallets } from "../../../querys/PalletQuerys.ts";
 import Select from "../../base/form/Select.tsx";
 import { useNavigate } from "react-router-dom";
 import { DataTableValueArray } from "primereact/datatable";

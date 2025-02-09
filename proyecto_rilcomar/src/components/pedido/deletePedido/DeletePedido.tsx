@@ -11,7 +11,7 @@ export default function DeletePedido({ selectedPedidos, closeModal, showNotifica
     })
 
     function handleDeletePedido() {
-        selectedPedidos.map((pedido: Pedido) => {
+        selectedPedidos.forEach((pedido: Pedido) => {
             if (pedido.id) {
                 deletePedido(pedido.id);
             }

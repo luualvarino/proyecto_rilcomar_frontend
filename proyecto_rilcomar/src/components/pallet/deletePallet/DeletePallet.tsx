@@ -11,7 +11,7 @@ export default function DeletePallet({ selectedPallets, closeModal, showNotifica
     })
 
     function handleDeletePallet() {
-        selectedPallets.map((pallet: Pallet) => {
+        selectedPallets.forEach((pallet: Pallet) => {
             if (pallet.id) {
                 deletePallet(pallet.id);
             }

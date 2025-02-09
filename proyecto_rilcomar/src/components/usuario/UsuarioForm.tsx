@@ -5,7 +5,7 @@ import { z } from "zod";
 import TextInput from "../base/form/textInput/TextInput.tsx";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
-import { Usuario, UsuarioData } from "../../models/Usuario.ts";
+import { UsuarioData } from "../../models/Usuario.ts";
 import { useAddUsuario } from "../../querys/UsuarioQuerys.ts";
 
 

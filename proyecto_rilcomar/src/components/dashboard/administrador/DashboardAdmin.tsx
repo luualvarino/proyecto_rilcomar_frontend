@@ -14,7 +14,6 @@ const DashboardAdmin = () => {
     //parte de pedidos
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const toast = useRef<Toast>(null);
-    const [estado] = useState("Finalizado"); 
     const { data: pedidoData } = useGetPedidosNoFinalizados();
 
     const columns: ColumnProps[] = [

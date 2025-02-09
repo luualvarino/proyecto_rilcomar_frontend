@@ -22,7 +22,7 @@ export default function CustomDemo() {
 
     const startContent = (
         <React.Fragment>
-            <img id='logo_img' src={logo} />
+            <img id='logo_img' src={logo} alt='Logo Rilcomar' />
         </React.Fragment>
     );
 

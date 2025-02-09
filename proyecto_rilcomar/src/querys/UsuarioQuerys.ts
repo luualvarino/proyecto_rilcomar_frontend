@@ -1,6 +1,5 @@
 import { useMutation, UseMutationResult, useQueryClient, useQuery, UseQueryOptions} from "@tanstack/react-query";
 import { Usuario, UsuarioData } from "../models/Usuario";
-import { ClienteBasico } from "../models/Cliente";
 
 
 interface LoginData {

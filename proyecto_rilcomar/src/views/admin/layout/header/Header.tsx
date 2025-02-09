@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import logo from "../../../../imgs/LogoRilcomar.png";
 import "./Header.css";
 import { Menubar } from 'primereact/menubar';
-import { Badge } from 'primereact/badge';
 import { useNavigate } from 'react-router-dom';
 import { Usuario } from '../../../../models/Usuario';
 import { Menu } from 'primereact/menu';
@@ -23,7 +22,7 @@ export default function CustomDemo() {
 
     const startContent = (
         <React.Fragment>
-            <img id='logo_img' src={logo} />
+            <img id='logo_img' src={logo} alt='Logo Rilcomar' />
         </React.Fragment>
     );
 
