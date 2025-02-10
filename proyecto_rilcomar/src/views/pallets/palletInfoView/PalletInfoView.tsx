@@ -15,23 +15,14 @@ export default function PalletInfoView(){
     const toast = useRef<Toast>(null);
 
     const handleDownloadQR = () => {
-        if (pallet.qrCode) {
-            // Descargar la imagen en base64 si está disponible
-            const link = document.createElement("a");
-            link.href = `data:image/png;base64,${pallet.qrCode}`;
-            link.download = `QR_Pallet_${pallet.id}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } else if (pallet.qrCodeUrl) {
-            // Descargar el QR generado con la API si no hay base64
-            const link = document.createElement("a");
-            link.href = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pallet.qrCodeUrl)}`;
-            link.download = `QR_Pallet_${pallet.id}.png`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
+        if (!pallet?.qrCode) return;
+
+        const link = document.createElement("a");
+        link.href = pallet.qrCode;
+        link.download = `QR_Pallet_${pallet.id}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     return (
@@ -56,18 +47,12 @@ export default function PalletInfoView(){
                         {/* Mostrar botón para ir a la vista del pedido si el pallet está ocupado */}
                         {pallet.estado === "Ocupado" && (
                             <div className="mt-3">
-                                {pallet.historial
-                                    .filter(p => p.estado !== "Finalizado") // Filtra los pedidos que no están finalizados
-                                    .map((p, index) => (
-                                        <Button 
-                                            key={index}
-                                            label="Ver Pedido"
-                                            icon="pi pi-eye"
-                                            className="button_filled"
-                                            onClick={() => navigate(`/pedidos/${p.pedido.id}`)}
-                                        />
-                                    ))
-                                }
+                                <Button 
+                                    label="Ver Pedido"
+                                    icon="pi pi-eye"
+                                    className="button_filled"
+                                    onClick={() => navigate(`/pedidos/${pallet.historial[pallet.historial.length - 1].id}`)}
+                                />
                             </div>
                         )}
 
@@ -75,9 +60,7 @@ export default function PalletInfoView(){
                         {pallet.qrCode && (
                             <div className="qr-code-container">
                                 <h3>Código QR:</h3>
-                                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pallet.qrCodeUrl)}`} 
-                                    alt="QR Code" 
-                                    className="qr-code" />
+                                <img src={pallet.qrCode} alt="QR Code" className="qr-code" />
                                 <Button 
                                     label="Descargar QR"
                                     icon="pi pi-download"
