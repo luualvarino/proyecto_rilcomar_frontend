@@ -14,14 +14,6 @@ export default function PalletInfoView(){
     const { data: pallet, isLoading } = useGetPallet(Number(params.palletId));
     const toast = useRef<Toast>(null);
 
-    /*useEffect(() => { //No funciona porque estoy guardando la url asociada al pallet en la bd y traigo eso para mostrar
-        if (pallet && pallet.estado === EstadoEnum.Ocupado && pallet.historial?.length > 0) {
-            // Si el pallet está ocupado y tiene historial, redirigir a PedidoUpdateView con el ID del pedido
-            console.log("Redirigiendo a Pedido con ID: " + pallet.historial[0].pedido.id);
-            navigate(`/pedidos/${pallet.historial[0].pedido.id}`);
-        }
-    }, [pallet, navigate]);*/
-
     const handleDownloadQR = () => {
         if (!pallet?.qrCode) return;
 
@@ -55,12 +47,18 @@ export default function PalletInfoView(){
                         {/* Mostrar botón para ir a la vista del pedido si el pallet está ocupado */}
                         {pallet.estado === "Ocupado" && (
                             <div className="mt-3">
-                                <Button 
-                                    label="Ver Pedido"
-                                    icon="pi pi-eye"
-                                    className="button_filled"
-                                    onClick={() => navigate(`/pedidos/${pallet.historial[0].id}`)}
-                                />
+                                {pallet.historial
+                                    .filter(p => p.pedido.estado !== "Finalizado") // Filtra los pedidos que no están finalizados
+                                    .map((p, index) => (
+                                        <Button 
+                                            key={index}
+                                            label="Ver Pedido"
+                                            icon="pi pi-eye"
+                                            className="button_filled"
+                                            onClick={() => navigate(`/pedidos/${p.pedido.id}`)}
+                                        />
+                                    ))
+                                }
                             </div>
                         )}
 

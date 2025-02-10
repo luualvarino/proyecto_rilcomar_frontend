@@ -5,7 +5,6 @@ import { Button } from 'primereact/button';
 import { Toast } from "primereact/toast";
 import { useGetPedidosXCliente } from "../../../querys/PedidoQuerys.ts";
 import { Pedido } from "../../../models/Pedido.ts";
-import { Usuario } from "../../../models/Usuario";
 import { DataTableValueArray } from "primereact/datatable";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +16,7 @@ export default function PedidosClienteTable() {
 
     const usuarioLogueado = localStorage.getItem("usuario");
     const usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
-    const clienteId = usuario.cliente.id;
+    const clienteId = usuario.cliente.id;    
     const estado = "Finalizado";
 
     const { data } = useGetPedidosXCliente({
@@ -45,15 +44,21 @@ export default function PedidosClienteTable() {
     return (
         <div>
             <Toast ref={toast} />
-            <TableComponent
-                data={data}
-                columns={columns}
-                paginationModel={paginationModel}
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                rowClick={false}
-                rowAction={viewButtonRender}
-            />
+            {data && data.length > 0 ? (
+                <TableComponent
+                    data={data}
+                    columns={columns}
+                    paginationModel={paginationModel}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    rowClick={false}
+                    rowAction={viewButtonRender}
+                />
+            ) : (
+                <div className="no-data-message">
+                    <p>No se encontraron pedidos finalizados.</p>
+                </div>
+            )}
         </div>
     )
 }
