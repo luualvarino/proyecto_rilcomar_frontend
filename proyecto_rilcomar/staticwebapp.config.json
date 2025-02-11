@@ -3,31 +3,11 @@
         "nodeVersion": "20"
     },
     "routes": [
-      {
-        "route": "/pallets/{palletId}",
+        {
+        "route": "/{*all}",
         "serve": "/index.html",
         "statusCode": 200
-      },
-      {
-        "route": "/pedidos/{pedidoId}",
-        "serve": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "route": "/admin/home",
-        "serve": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "route": "/client/home",
-        "serve": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "route": "/*",
-        "serve": "/index.html",
-        "statusCode": 200
-      }
+        }
     ]
   }
   
