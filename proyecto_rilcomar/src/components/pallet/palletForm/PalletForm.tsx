@@ -56,7 +56,6 @@ export default function PalletForm({ addedPallet }) {
             observaciones: data.observaciones,
         }
         const cantidad = data.cantidad;
-        console.log("Enviando -> PALLET:", obj, "CANTIDAD:", cantidad);
 
         addPallet({ pallet: obj, cantidad });
     }

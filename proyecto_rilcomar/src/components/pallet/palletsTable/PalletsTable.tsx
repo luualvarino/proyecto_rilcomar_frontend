@@ -28,8 +28,6 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
     const navigate = useNavigate();
 
     function showNotification(data) {
-        console.log(data);
-
         if (data) {
             toast.current?.show({ severity: 'success', summary: 'Éxito', detail: 'Pallet eliminado exitosamente', life: 3000 });
         } else {

@@ -103,7 +103,6 @@ async function editPedidoQuery(pedido: Pedido) {
         ...pedido,
         estado: pedido.estado?.replace(/ /, "_")
     };
-    console.log("Pedido a enviar:", pedidoCorregido);
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}pedidos`, {
         method: 'PUT',
         headers: {
@@ -178,8 +177,6 @@ interface GetPedidosClienteFilters {
 async function getPedidosXClienteQuery(filters: GetPedidosClienteFilters) {
     const queryParams = new URLSearchParams();
 
-    console.log(filters.estado)
-    console.log(filters.clienteId)
     queryParams.append("clienteId", filters.clienteId.toString());
     if (filters.estado) {
         queryParams.append("estado", filters.estado.replace(" ", "_"));
