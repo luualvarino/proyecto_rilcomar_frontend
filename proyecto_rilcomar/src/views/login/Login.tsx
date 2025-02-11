@@ -23,7 +23,7 @@ export default function Login() {
         resolver: zodResolver(formValidator),
     });
 
-    const { mutate: login } = useLogin({ 
+    const { mutate: login, isPending } = useLogin({ 
         onSuccessFn: (user) => {
             
             localStorage.setItem("usuario", JSON.stringify(user));
@@ -94,6 +94,7 @@ export default function Login() {
                     label="Iniciar sesión"
                     icon="pi pi-sign-in"
                     type="submit"
+                    loading={isPending}
                 />
             </form>
         </div>
