@@ -19,7 +19,7 @@ const DashboardCliente = () => {
     const usuario = usuarioLogueado ? JSON.parse(usuarioLogueado) : null;
     const clienteId = usuario.cliente.id;
 
-    const { data } = useGetPedidosXCliente({
+    const { data, isPending } = useGetPedidosXCliente({
         clienteId,
     });
     const navigate = useNavigate();
@@ -38,8 +38,6 @@ const DashboardCliente = () => {
         { field: 'estado', header: 'Estado' },
     ];
     
-    const paginationModel = { page: 0, pageSize: 5 };
-
     return (
         <div>
             <h1 id="pedidos_title">Pedidos</h1>
@@ -47,11 +45,11 @@ const DashboardCliente = () => {
             <TableComponent
                 data={data}
                 columns={columns}
-                paginationModel={paginationModel}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
                 rowAction={viewButtonRender}
+                isLoading={isPending}
             />
         </div>
     )

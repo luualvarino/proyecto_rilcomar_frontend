@@ -7,7 +7,6 @@ interface LoginData {
     password: string;
 }
 
-
 async function loginQuery(data: LoginData): Promise<Usuario> {
     const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}usuarios/login`, {
         method: "POST",
@@ -24,8 +23,6 @@ async function loginQuery(data: LoginData): Promise<Usuario> {
     const user: Usuario = await response.json();
     return user;
 }
-
-
 
 export const useLogin = ({
     onSuccessFn,

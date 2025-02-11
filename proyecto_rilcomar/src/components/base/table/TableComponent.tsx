@@ -11,13 +11,13 @@ export interface ColumnProps {
 interface EnhancedTableProps {
   data: any[];
   columns: ColumnProps[];
-  paginationModel: {};
   header?: () => React.JSX.Element;
   footer?: React.JSX.Element;
   selectedRows?: DataTableValueArray;
   setSelectedRows?: (rows: DataTableValueArray) => void;
   rowClick?: boolean;
   rowAction?: (rowData) => React.JSX.Element;
+  isLoading?: boolean;
 }
 
 export default function TableComponent(
@@ -26,11 +26,11 @@ export default function TableComponent(
     columns,
     header,
     footer,
-    paginationModel,
     selectedRows = [],
     setSelectedRows,
     rowClick,
-    rowAction
+    rowAction,
+    isLoading,
   }: EnhancedTableProps) {
 
   return (
@@ -40,11 +40,14 @@ export default function TableComponent(
         header={header}
         footer={footer}
         tableStyle={{ minWidth: '50rem' }}
-        //Agregar paginacion
         selectionMode={rowClick ? null : 'checkbox'}
         selection={selectedRows ?? null}
         onSelectionChange={(e) => setSelectedRows?.(e.value as DataTableValueArray)}
         dataKey="id"
+        loading={isLoading}
+        paginator 
+        rows={10} 
+        rowsPerPageOptions={[5, 10, 25, 50]}
       >
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         {columns.map(col => (

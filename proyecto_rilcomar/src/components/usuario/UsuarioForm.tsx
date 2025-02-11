@@ -11,7 +11,7 @@ import { useAddUsuario } from "../../querys/UsuarioQuerys.ts";
 
 export default function UserForm({ clienteSeleccionado, onAddSuccess }) {
 
-    const { mutate: addUsuario } = useAddUsuario({
+    const { mutate: addUsuario, isPending } = useAddUsuario({
         onSuccessFn: (data) => {
             onAddSuccess(data);
         },
@@ -72,7 +72,7 @@ export default function UserForm({ clienteSeleccionado, onAddSuccess }) {
                     />
                 )}
             />
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" loading={isPending}/>
         </form>
         </div>
     )

@@ -28,7 +28,7 @@ export default function PedidosView() {
                 <Button id="add_pallet_btn" label="Crear Pedido" icon="pi pi-plus" onClick={() => setVisible(true)} />
             </div>
             <PedidosTable />
-            <BaseDialog header="Nuevo Pallet" content={<PedidoForm createdPedido={showNotification}/>} visible={visible} setVisible={setVisible} width="60vw" />
+            <BaseDialog header="Nuevo Pedido" content={<PedidoForm createdPedido={showNotification}/>} visible={visible} setVisible={setVisible} width="60vw" />
         </div>
     )
 }

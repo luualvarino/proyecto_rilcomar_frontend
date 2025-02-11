@@ -8,7 +8,7 @@ import { Cliente } from "../../../models/Cliente.ts";
 import { useAddCliente } from "../../../querys/ClienteQuerys.ts";
 
 export default function ClienteForm({ addedCliente }) {
-    const { mutate: addCliente } = useAddCliente({
+    const { mutate: addCliente, isPending } = useAddCliente({
         onSuccessFn: (data: Cliente) => { addedCliente(data) },
         onErrorFn: () => { addedCliente(null) }
     })
@@ -65,23 +65,25 @@ export default function ClienteForm({ addedCliente }) {
                     />
                 )}
             />
-            <Controller
-                name="telefono"
-                control={control}
-                render={({ field }) => (
-                    <TextInput
-                        id="telefono_input"
-                        placeholder="Teléfono"
-                        prefix="+598"
-                        addedClass="md:w-17rem"
-                        value={field.value}
-                        setValue={field.onChange}
-                        invalid={!!errors.telefono}
-                        helperText={errors.telefono?.message}
-                    />
-                )}
-            />
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
+            <div style={{ marginRight: '4rem' }}>
+                <Controller
+                    name="telefono"
+                    control={control}
+                    render={({ field }) => (
+                        <TextInput
+                            id="telefono_input"
+                            placeholder="Teléfono"
+                            prefix="+598"
+                            addedClass="md:w-17rem"
+                            value={field.value}
+                            setValue={field.onChange}
+                            invalid={!!errors.telefono}
+                            helperText={errors.telefono?.message}
+                        />
+                    )}
+                />
+            </div>
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" loading={isPending} />
         </form>
     )
 }

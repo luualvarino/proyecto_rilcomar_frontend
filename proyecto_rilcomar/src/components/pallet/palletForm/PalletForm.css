@@ -3,15 +3,15 @@
     padding-bottom: 0;
 }
 
-#peso_input {
+#peso_input_palletForm, #ubicacion_input_palletForm {
     margin-left: 2rem;
 }
 
-#tipo_input {
-    margin-right: 2rem;
+#tipo_input_palletForm {
+    height: 3rem;
+    margin-top: 0;
 }
 
-
-/* #add_pallet_btn {
-    align-self: flex-end;
-} */
+#form_row {
+    align-items: center;
+}

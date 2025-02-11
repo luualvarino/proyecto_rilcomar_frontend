@@ -11,7 +11,7 @@ import TextInput from "../../base/form/textInput/TextInput.tsx";
 
 
 export default function PalletForm({ addedPallet }) {
-    const { mutate: addPallet } = useAddPallet({
+    const { mutate: addPallet, isPending } = useAddPallet({
         onSuccessFn: (data: Pallet) => { addedPallet(data) },
         onErrorFn: () => { addedPallet(null) }
     })
@@ -34,7 +34,7 @@ export default function PalletForm({ addedPallet }) {
             formato: "",
             observaciones: "",
             cantidad: 1,
-            ubicacion: "",
+            ubicacion: "Depósito",
         },
         resolver: zodResolver(formValidator),
     });
@@ -43,9 +43,7 @@ export default function PalletForm({ addedPallet }) {
         .filter((key) => isNaN(Number(key)))
         .map((key) => key);
 
-    const formatoOptions = Object.keys(FormatoEnum)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "));
+    const formatoOptions = Object.values(FormatoEnum);
 
     const handleAddPallet: SubmitHandler<FormValidationSchema> = (data) => {
         const obj: Pallet = {
@@ -63,105 +61,120 @@ export default function PalletForm({ addedPallet }) {
     return (
         <form id="form_div" className="card flex flex-column align-items-center gap-3" onSubmit={handleSubmit(handleAddPallet)}>
             <div id="form_row" className="flex">
+                <div className="input-group">
+                    <Controller
+                        name="tipo"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                id="tipo_input_palletForm"
+                                placeholder="Tipo"
+                                options={materialOptions}
+                                addedClass="md:w-11rem"
+                                selectedValue={field.value}
+                                setSelectedValue={field.onChange}
+                                invalid={!!errors.tipo}
+                                helperText={errors.tipo?.message}
+                            />
+                        )}
+                    />
+                </div>
+                <div className="input-group">
+                    <Controller
+                        name="peso"
+                        control={control}
+                        render={({ field }) => (
+                            <TextInput
+                                id="peso_input_palletForm"
+                                placeholder="Peso"
+                                suffix="Kg"
+                                isNumber={true}
+                                addedClass="md:w-11rem"
+                                value={field.value}
+                                setValue={field.onChange}
+                                invalid={!!errors.peso}
+                                helperText={errors.peso?.message}
+                            />
+                        )}
+                    />
+                </div>
+            </div>
+            <div id="form_row" className="flex">
+                <div className="input-group">
+                    <Controller
+                        name="formato"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                id="formato_input_palletForm"
+                                placeholder="Formato"
+                                options={formatoOptions}
+                                addedClass="md:w-24rem"
+                                selectedValue={field.value}
+                                setSelectedValue={field.onChange}
+                                invalid={!!errors.formato}
+                                helperText={errors.formato?.message}
+                            />
+                        )}
+                    />
+                </div>
+            </div>
+            <div id="form_row" className="flex">
+                <div className="input-group">
+                    <Controller
+                        name="cantidad"
+                        control={control}
+                        render={({ field }) => (
+                            <TextInput
+                                id="cantidad_input_palletForm"
+                                placeholder="Cantidad"
+                                isNumber={true}
+                                addedClass="md:w-11rem"
+                                value={field.value}
+                                setValue={field.onChange}
+                                invalid={!!errors.cantidad}
+                                helperText={errors.cantidad?.message}
+                            />
+                        )}
+                    />
+                </div>
+                <div className="input-group">
+                    <Controller
+                        name="ubicacion"
+                        control={control}
+                        render={({ field }) => (
+                            <TextInput
+                                id="ubicacion_input_palletForm"
+                                placeholder="Ubicación"
+                                addedClass="md:w-11rem"
+                                value={field.value}
+                                setValue={field.onChange}
+                                invalid={!!errors.ubicacion}
+                                helperText={errors.ubicacion?.message}
+                            />
+                        )}
+                    />
+                </div>
+            </div>
+            <div id="form_row" className="flex">
                 <Controller
-                    name="tipo"
-                    control={control}
-                    render={({ field }) => (
-                        <Select
-                            id="tipo_input"
-                            placeholder="Tipo"
-                            options={materialOptions}
-                            addedClass="md:w-10rem"
-                            selectedValue={field.value}
-                            setSelectedValue={field.onChange}
-                            invalid={!!errors.tipo}
-                            helperText={errors.tipo?.message}
-                        />
-                    )}
-                />
-                <Controller
-                    name="peso"
+                    name="observaciones"
                     control={control}
                     render={({ field }) => (
                         <TextInput
-                            id="peso_input"
-                            placeholder="Peso"
-                            suffix="Kg"
-                            isNumber={true}
-                            addedClass="md:w-10rem"
+                            id="observaciones_input_palletForm"
+                            placeholder="Observaciones"
+                            isMultiline={true}
+                            addedClass="md:w-24rem"
                             value={field.value}
                             setValue={field.onChange}
-                            invalid={!!errors.peso}
-                            helperText={errors.peso?.message}
+                            invalid={!!errors.observaciones}
+                            helperText={errors.observaciones?.message}
                         />
                     )}
                 />
             </div>
-            <Controller
-                name="formato"
-                control={control}
-                render={({ field }) => (
-                    <Select
-                        id="formato_input"
-                        placeholder="Formato"
-                        options={formatoOptions}
-                        addedClass="md:w-24rem"
-                        selectedValue={field.value}
-                        setSelectedValue={field.onChange}
-                        invalid={!!errors.formato}
-                        helperText={errors.formato?.message}
-                    />
-                )}
-            />
-             <div id="form_row" className="flex">
-                <Controller
-                    name="cantidad"
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            id="cantidad_input"
-                            placeholder="Cantidad"
-                            isNumber={true}
-                            addedClass="md:w-10rem"
-                            value={field.value}
-                            setValue={field.onChange}
-                            invalid={!!errors.cantidad}
-                            helperText={errors.cantidad?.message}
-                        />
-                    )}
-                />
-                <Controller
-                    name="ubicacion"
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            id="ubicacion_input"
-                            placeholder="Ubicación"
-                            addedClass="md:w-10rem"
-                            value={field.value}
-                            setValue={field.onChange}
-                            invalid={!!errors.ubicacion}
-                            helperText={errors.ubicacion?.message}
-                        />
-                    )}
-                />
-            </div>
-            <Controller
-                name="observaciones"
-                control={control}
-                render={({ field }) => (
-                    <TextInput
-                        placeholder="Observaciones"
-                        isMultiline={true}
-                        addedClass="md:w-24rem"
-                        value={field.value}
-                        setValue={field.onChange}
-                        invalid={!!errors.observaciones}
-                        helperText={errors.observaciones?.message}
-                    />
-                )}
-            />
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" loading={isPending} />
         </form>
     )
 }

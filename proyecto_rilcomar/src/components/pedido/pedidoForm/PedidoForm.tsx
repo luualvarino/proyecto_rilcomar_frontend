@@ -21,7 +21,7 @@ export default function PedidoForm({ createdPedido }) {
     const { data } = useGetPallets({ estado: "Libre" });
     const [pallets, setPallets] = useState<Pallet[]>([]);
 
-    const { mutate: createPedido } = useCreatePedido({
+    const { mutate: createPedido, isPending } = useCreatePedido({
         onSuccessFn: (data: Pedido) => { createdPedido(data) },
         onErrorFn: () => { createdPedido(null) }
     })
@@ -50,7 +50,7 @@ export default function PedidoForm({ createdPedido }) {
     const { handleSubmit, control, formState: { errors } } = useForm<FormValidationSchema>({
         defaultValues: {
             cliente: undefined,
-            fechaEntrega: getTomorrowDate(),
+            fechaEntrega: undefined,
             palletsPedido: []
         },
         resolver: zodResolver(formValidator),
@@ -75,7 +75,7 @@ export default function PedidoForm({ createdPedido }) {
                     control={control}
                     render={({ field }) => (
                         <Select
-                            id="tipo_input"
+                            id="tipo_input_palletForm"
                             placeholder="Cliente"
                             options={clientes}
                             addedClass="md:w-16rem"
@@ -117,7 +117,7 @@ export default function PedidoForm({ createdPedido }) {
                     )}
                 />
             </div>
-            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" />
+            <Button id="add_pallet_btn" label="Agregar" icon="pi pi-check" autoFocus type="submit" loading={isPending} />
         </form>
     )
 }

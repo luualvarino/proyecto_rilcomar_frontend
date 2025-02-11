@@ -23,7 +23,11 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
 
-    const { data } = useGetPallets({ estado, tipo, formato });
+    const { data, isPending } = useGetPallets({
+        estado,
+        tipo,
+        formato
+    });
 
     const navigate = useNavigate();
 
@@ -43,25 +47,21 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
-        { field: 'tipo', header: 'Tipo' }, //Buscar forma de mostrar los valores escritos bien (con tilde)
+        { field: 'tipo', header: 'Tipo' },
         { field: 'formato', header: 'Formato' },
         { field: 'estado', header: 'Estado' },
         { field: 'observaciones', header: 'Observaciones' }
     ];
 
-    const paginationModel = { page: 0, pageSize: 5 };
-
     const estados = Object.keys(EstadoEnum)
-    .filter((key) => isNaN(Number(key)))
-    .map((key) => key);
+        .filter((key) => isNaN(Number(key)))
+        .map((key) => key);
 
     const tipos = Object.keys(MaterialEnum)
         .filter((key) => isNaN(Number(key)))
         .map((key) => key);
 
-    const formatos = Object.keys(FormatoEnum)
-        .filter((key) => isNaN(Number(key)))
-        .map((key) => key.replace("_", " "));
+    const formatos = Object.values(FormatoEnum);
 
     const renderHeader = () => {
         return (
@@ -111,11 +111,11 @@ export default function PalletsTable({ selectedRows, setSelectedRows }: PalletsT
                 data={data}
                 columns={columns}
                 header={renderHeader}
-                paginationModel={paginationModel}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
                 rowAction={viewButtonRender}
+                isLoading={isPending}
             />
             <BaseDialog
                 header={selectedRows.length > 1 ? "Desea eliminar los Pallets seleccionados?" : "Desea eliminar el Pallet seleccionado?"}
