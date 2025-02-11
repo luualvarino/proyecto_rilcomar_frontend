@@ -3,6 +3,11 @@
         "nodeVersion": "20"
     },
     "routes": [
+        {
+        "route": "/{*all}",
+        "serve": "/index.html",
+        "statusCode": 200
+        },
       {
         "route": "/pallets/{palletId}",
         "serve": "/index.html",
