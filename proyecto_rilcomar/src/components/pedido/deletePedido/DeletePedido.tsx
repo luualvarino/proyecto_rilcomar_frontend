@@ -5,7 +5,7 @@ import "../../pallet/deletePallet/DeletePallet.tsx";
 import { useDeletePedido } from "../../../querys/PedidoQuerys.ts";
 
 export default function DeletePedido({ selectedPedidos, closeModal, showNotification }) {
-    const { mutate: deletePedido } = useDeletePedido({
+    const { mutate: deletePedido, isPending } = useDeletePedido({
         onSuccessFn: () => showNotification("Ok"),
         onErrorFn: () => showNotification(null)
     })
@@ -28,7 +28,7 @@ export default function DeletePedido({ selectedPedidos, closeModal, showNotifica
             </ul>
 
             <div>
-                <Button label="Confirmar" icon="pi pi-check" className="button_filled" onClick={handleDeletePedido} />
+                <Button label="Confirmar" icon="pi pi-check" className="button_filled" onClick={handleDeletePedido} loading={isPending} />
                 <Button label="Cancelar" severity="secondary" icon="pi pi-times" style={{ marginLeft: '0.5em' }} onClick={closeModal} />
             </div>
         </div>

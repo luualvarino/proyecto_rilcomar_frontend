@@ -13,8 +13,6 @@ async function getPalletsQuery(queryParams: string) {
 }
 
 interface getPalletsFilters {
-    // page?: number;
-    // size?: number;
     estado?: string;
     tipo?: string;
     formato?: string;
@@ -26,13 +24,11 @@ const buildApiFilters = (filters: getPalletsFilters) => {
     if (filters.estado) {
         queryParams.append("estado", filters.estado);
     }
-
     if (filters.tipo) {
         queryParams.append("tipo", filters.tipo.normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
     }
-
     if (filters.formato) {
-        queryParams.append("formato", filters.formato.replace(" ", "_"));
+        queryParams.append("formato", filters.formato);
     }
 
     return queryParams.toString();

@@ -25,7 +25,7 @@ const BaseDatePicker = ({
 }: BaseDatePickerProps) => {
 
   return (
-    <div className="flex-auto">
+    <div className="flex-auto" style={{marginLeft: "3.8rem"}}>
       <FloatLabel>
         <Calendar
           value={value}
@@ -34,6 +34,7 @@ const BaseDatePicker = ({
           disabled={disabled}
           dateFormat={dateFormat}
           showIcon //Cambiar color del boton
+          style={{height: "3rem"}}
         />
         <label>{label}</label>
       </FloatLabel>

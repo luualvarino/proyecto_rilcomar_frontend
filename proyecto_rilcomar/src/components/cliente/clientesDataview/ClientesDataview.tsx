@@ -17,7 +17,7 @@ import { classNames } from "primereact/utils";
 
 
 export default function ClientesDataview() {
-    const { data } = useGetClientes({});
+    const { data, isPending } = useGetClientes({});
     const [visibleUserForm, setVisibleUserForm] = useState<boolean>(false);
     const [visibleClienteEditForm, setVisibleClienteEditForm] = useState<boolean>(false);
     const [visibleGestionarUsuarios, setVisibleGestionarUsuarios] = useState<boolean>(false);
@@ -27,7 +27,7 @@ export default function ClientesDataview() {
 
     const { data: usuarios, refetch } = useGetUsuariosPorCliente(selectedCliente?.id || 0);
 
-    const { mutate: deleteUsuario } = useDeleteUsuario({
+    const { mutate: deleteUsuario, isPending: isPendingDelte } = useDeleteUsuario({
         onSuccessFn: () => {
             toast.current?.show({ severity: "success", summary: "Éxito", detail: "Usuario eliminado correctamente", life: 3000 });
             setTimeout(() => {
@@ -156,6 +156,7 @@ export default function ClientesDataview() {
                         </div>
                     );
                 }}
+                isPending={isPending}
             />
 
             <BaseDialog
@@ -178,11 +179,12 @@ export default function ClientesDataview() {
                 header={`Usuarios de ${selectedCliente?.nombre || ""}`}
                 visible={visibleGestionarUsuarios}
                 setVisible={setVisibleGestionarUsuarios}
-                width="30vw"
+                width="50vw"
                 content={
                     <UserList
                         usuarios={usuarios || []}
                         onDelete={handleEliminarUsuario}
+                        isPending={isPendingDelte}
                     />
                 }
             />

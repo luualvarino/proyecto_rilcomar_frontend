@@ -17,7 +17,7 @@ export default function PedidosTable() {
     const [estado, setEstado] = useState("");
     const [showModal, setShowModal] = useState(false);
     const toast = useRef<Toast>(null);
-    const { data } = useGetPedidos({ estado });
+    const { data, isPending } = useGetPedidos({ estado });
     const navigate = useNavigate();
 
     function showNotification(data) {
@@ -43,8 +43,6 @@ export default function PedidosTable() {
         { field: 'ultimaActualizacion', header: 'Última Modificación' },
         { field: 'ubicacion', header: 'Ubicación' }
     ];
-
-    const paginationModel = { page: 0, pageSize: 5 };
 
     const estados = Object.keys(EstadoEnum)
         .filter((key) => isNaN(Number(key)))
@@ -78,11 +76,11 @@ export default function PedidosTable() {
                 data={data}
                 columns={columns}
                 header={renderHeader}
-                paginationModel={paginationModel}
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 rowClick={false}
                 rowAction={viewButtonRender}
+                isLoading={isPending}
             />
             <BaseDialog
                 header={selectedRows.length > 1 ? "Desea eliminar los Pedidos seleccionados?" : "Desea eliminar el Pedido seleccionado?"}

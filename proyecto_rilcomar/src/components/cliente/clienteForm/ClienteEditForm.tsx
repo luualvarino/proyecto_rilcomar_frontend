@@ -35,7 +35,7 @@ export default function ClienteEditForm({ clienteToEdit, onEditSuccess }) {
         }
     }, [clienteToEdit, reset]);
 
-    const { mutate: editCliente } = useEditCliente({
+    const { mutate: editCliente, isPending } = useEditCliente({
         onSuccessFn: (data: Cliente) => {
             onEditSuccess(data);
         },
@@ -86,23 +86,25 @@ export default function ClienteEditForm({ clienteToEdit, onEditSuccess }) {
                         />
                     )}
                 />
-                <Controller
-                    name="telefono"
-                    control={control}
-                    render={({ field }) => (
-                        <TextInput
-                            id="telefono_input"
-                            placeholder="Teléfono"
-                            prefix="+598"
-                            addedClass="md:w-17rem"
-                            value={field.value}
-                            setValue={field.onChange}
-                            invalid={!!errors.telefono}
-                            helperText={errors.telefono?.message}
-                        />
-                    )}
-                />
-                <Button id="edit_cliente_btn" label="Guardar Cambios" icon="pi pi-check" autoFocus type="submit" />
+                <div style={{ marginRight: '4rem' }}>
+                    <Controller
+                        name="telefono"
+                        control={control}
+                        render={({ field }) => (
+                            <TextInput
+                                id="telefono_input"
+                                placeholder="Teléfono"
+                                prefix="+598"
+                                addedClass="md:w-17rem"
+                                value={field.value}
+                                setValue={field.onChange}
+                                invalid={!!errors.telefono}
+                                helperText={errors.telefono?.message}
+                            />
+                        )}
+                    />
+                </div>
+                <Button id="add_pallet_btn" label="Guardar Cambios" icon="pi pi-check" autoFocus type="submit" loading={isPending} />
             </form>
         </div>
     );

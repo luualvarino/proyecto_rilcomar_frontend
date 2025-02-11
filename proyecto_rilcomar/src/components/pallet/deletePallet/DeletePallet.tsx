@@ -5,7 +5,7 @@ import "./DeletePallet.css";
 import { useDeletePallet } from "../../../querys/PalletQuerys.ts";
 
 export default function DeletePallet({ selectedPallets, closeModal, showNotification }) {
-    const { mutate: deletePallet } = useDeletePallet({
+    const { mutate: deletePallet, isPending } = useDeletePallet({
         onSuccessFn: () => showNotification("Ok"),
         onErrorFn: () => showNotification(null)
     })
@@ -28,7 +28,7 @@ export default function DeletePallet({ selectedPallets, closeModal, showNotifica
             </ul>
 
             <div>
-                <Button label="Confirmar" icon="pi pi-check" className="button_filled" onClick={handleDeletePallet} />
+                <Button label="Confirmar" icon="pi pi-check" className="button_filled" onClick={handleDeletePallet} loading={isPending} />
                 <Button label="Cancelar" severity="secondary" icon="pi pi-times" style={{ marginLeft: '0.5em' }} onClick={closeModal} />
             </div>
         </div>

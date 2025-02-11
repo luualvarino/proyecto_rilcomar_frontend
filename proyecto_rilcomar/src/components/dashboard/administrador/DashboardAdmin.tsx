@@ -14,16 +14,15 @@ const DashboardAdmin = () => {
     //parte de pedidos
     const [selectedRows, setSelectedRows] = useState<DataTableValueArray>([]);
     const toast = useRef<Toast>(null);
-    const { data: pedidoData } = useGetPedidosNoFinalizados();
+    const { data: pedidoData, isPending } = useGetPedidosNoFinalizados();
 
     const columns: ColumnProps[] = [
         { field: 'id', header: 'ID' },
         { field: 'cliente', header: 'Cliente', body: (rowData: Pedido) => { return <span>{rowData.cliente.nombre}</span> } },
         { field: 'pallets', header: 'Cantidad de Pallets', body: (rowData: Pedido) => { return <span>{rowData.pallets.length}</span>; } },
         { field: 'ultimaActualizacion', header: 'Ultima Actualización' },
-        { field: 'estado', header: 'Estado' },
+        { field: 'estado', header: 'Estado', body: (rowData: Pedido) => {return <span>{rowData.estado?.replace("_", " ")}</span>} },
     ];
-    const paginationModel = { page: 0, pageSize: 5 };
 
     return (
         <div>
@@ -57,10 +56,10 @@ const DashboardAdmin = () => {
                 <TableComponent
                     data={pedidoData}
                     columns={columns}
-                    paginationModel={paginationModel}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     rowClick={false}
+                    isLoading={isPending}
                 />
             </div>
         </div>

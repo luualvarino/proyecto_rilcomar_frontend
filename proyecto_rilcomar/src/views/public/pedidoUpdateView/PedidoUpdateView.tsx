@@ -9,6 +9,7 @@ import { Card } from "primereact/card";
 import "./PedidoUpdateView.css";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
+import TextInput from "../../../components/base/form/textInput/TextInput.tsx";
 
 export default function PedidoUpdateView() {
     let params = useParams();
@@ -16,10 +17,12 @@ export default function PedidoUpdateView() {
     const { data: pedido, isLoading } = useGetPedido(Number(params.pedidoId));
 
     const [estado, setEstado] = useState("");
+    const [ubicacion, setUbicacion] = useState("");
 
     useEffect(() => {
         if (pedido) {
-            setEstado(pedido.estado);
+            setEstado(pedido.estado.replace("_", " "));
+            setUbicacion(pedido.ubicacion);
         }
     }, [pedido])
 
@@ -34,6 +37,7 @@ export default function PedidoUpdateView() {
 
     function handleEditarPedido() {
         pedido.estado = estado;
+        pedido.ubicacion = ubicacion;
         editPedido(pedido);
     }
 
@@ -59,22 +63,32 @@ export default function PedidoUpdateView() {
                             Pedido <span className="normal_text">{pedido.id}</span>
                         </h2>
                         <h3>
-                            Estado <span className="normal_text">{pedido.estado}</span>
+                            Estado: <span className="normal_text">{pedido.estado}</span>
                         </h3>
                         <h3>
-                            Cliente <span className="normal_text">{pedido.cliente.nombre}</span>
+                            Cliente: <span className="normal_text">{pedido.cliente.nombre}</span>
                         </h3>
                     </div>
                     <PedidoList pedido={pedido} />
                     <div className="flex flex-column align-items-center">
-                        <Select
-                            id="tipo_input"
-                            placeholder="Estado"
-                            options={estados}
-                            addedClass="md:w-16rem"
-                            selectedValue={estado}
-                            setSelectedValue={(value) => setEstado(value as string)}
-                        />
+                        <div className="input-group" style={{marginBottom: '1rem'}}>
+                            <Select
+                                placeholder="Estado"
+                                options={estados}
+                                addedClass="md:w-11rem"
+                                selectedValue={estado}
+                                setSelectedValue={(value) => setEstado(value as string)}
+                                style={{ textAlign: "left" }}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <TextInput
+                                placeholder="Ubicación"
+                                addedClass="md:w-11rem"
+                                value={ubicacion}
+                                setValue={(value) => setUbicacion(value as string)}
+                            />
+                        </div>
                     </div>
                     <div id="button_div" className="flex flex-column align-items-center">
                         <Button id="button_update" className="button_filled" label="Actualizar" icon="pi pi-check" autoFocus type="button" onClick={handleEditarPedido} />

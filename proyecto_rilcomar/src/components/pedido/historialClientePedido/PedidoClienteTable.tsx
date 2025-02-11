@@ -19,7 +19,7 @@ export default function PedidosClienteTable() {
     const clienteId = usuario.cliente.id;    
     const estado = "Finalizado";
 
-    const { data } = useGetPedidosXCliente({
+    const { data, isPending } = useGetPedidosXCliente({
         clienteId,
         estado,
     });
@@ -40,7 +40,6 @@ export default function PedidosClienteTable() {
         { field: 'ultimaActualizacion', header: 'Fecha Final' }
     ];
 
-    const paginationModel = { page: 0, pageSize: 5 };
     return (
         <div>
             <Toast ref={toast} />
@@ -48,11 +47,11 @@ export default function PedidosClienteTable() {
                 <TableComponent
                     data={data}
                     columns={columns}
-                    paginationModel={paginationModel}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     rowClick={false}
                     rowAction={viewButtonRender}
+                    isLoading={isPending}
                 />
             ) : (
                 <div className="no-data-message">

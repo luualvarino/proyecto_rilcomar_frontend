@@ -13,39 +13,49 @@ import Login from './views/login/Login.tsx';
 import AdminHome from './views/admin/home/Home.tsx';
 import ClientHome from './views/cliente/home/Home.tsx';
 import LayoutLogin from './views/login/layout/Layout.tsx';
-
+import ProtectedRoute from './utils/ProtecredRoute.tsx';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
       element: <LayoutLogin />,
+      children: [{ path: '/', element: <Login /> }]
+    },
+    {
+      path: '/',
+      element: <ProtectedRoute role="admin" />,
       children: [
-        { path: '/', element: <Login /> }
+        {
+          path: '/',
+          element: <LayoutAdmin />,
+          children: [
+            { path: '/admin/home', element: <AdminHome /> },
+            { path: '/pallets', element: <PalletsView /> },
+            { path: '/pedidos', element: <PedidosView /> },
+            { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
+            { path: '/clientes', element: <ClientesView /> },
+          ]
+        }
       ]
     },
     {
       path: '/',
-      element: <LayoutAdmin />,
+      element: <ProtectedRoute role="client" />,
       children: [
-        { path: '/admin/home', element: <AdminHome /> },
-        { path: '/pallets', element: <PalletsView /> },
-        { path: '/pedidos', element: <PedidosView /> },
-        { path: '/pedidos/:pedidoId/detalle', element: <PedidoDetailView /> },
-        { path: '/clientes', element: <ClientesView /> },
-      ]
-    },
-    {
-      path: '/',
-      element: <LayoutCliente />,
-      children: [
-        { path: '/client/home', element: <ClientHome /> },
-        { path: '/pedidosCliente', element: <PedidosClienteView /> },
+        {
+          path: '/',
+          element: <LayoutCliente />,
+          children: [
+            { path: '/client/home', element: <ClientHome /> },
+            { path: '/pedidosCliente', element: <PedidosClienteView /> },
+          ]
+        }
       ]
     },
     { path: '/pedidos/:pedidoId', element: <PedidoUpdateView /> },
     { path: '/pallets/:palletId', element: <PalletInfoView /> },
-  ])
+  ]);
 
   const queryClient = new QueryClient();
   return (

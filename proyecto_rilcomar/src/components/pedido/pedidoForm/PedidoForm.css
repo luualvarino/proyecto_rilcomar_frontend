@@ -5,3 +5,8 @@
 #list_div {
     margin-top: 1rem;
 }
+
+.p-datepicker-trigger {
+    background-color: #4ab9cf;
+    border-color: #4ab9cf;
+}
