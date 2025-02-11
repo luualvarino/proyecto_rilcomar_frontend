@@ -3,6 +3,11 @@
     "rewrite": "/index.html",
     "exclude": ["/rilcomar/*"]
   },
+  "mimeTypes": {
+    ".json": "application/json",
+    ".js": "application/javascript",
+    ".css": "text/css"
+  },
   "routes": [
     {
       "route": "/*",
