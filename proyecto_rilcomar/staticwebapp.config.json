@@ -5,7 +5,7 @@
   },
   "routes": [
     {
-      "route": "/{*all}",
+      "route": "/*",
       "rewrite": "/index.html",
       "statusCode": 200
     }
