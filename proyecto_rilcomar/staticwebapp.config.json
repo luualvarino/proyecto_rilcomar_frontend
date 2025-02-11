@@ -1,12 +1,13 @@
 {
-  "platform": {
-      "nodeVersion": "20"
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/rilcomar/*"]
   },
   "routes": [
-      {
+    {
       "route": "/{*all}",
-      "serve": "/index.html",
+      "rewrite": "/index.html",
       "statusCode": 200
-      }
+    }
   ]
 }
